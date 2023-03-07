@@ -19,9 +19,9 @@ class CreateCitiesTable extends Migration
             $table->string('street');
             $table->foreignId('country_id');
             $table->foreign('country_id')->on('countries')->references('id')->cascadeOnDelete();
-
-
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 

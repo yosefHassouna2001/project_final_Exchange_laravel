@@ -21,10 +21,11 @@ class CreateUsersTable extends Migration
             $table->string('address')->nullable();
             $table->string('image')->nullable();
             $table->date('date');
-            $table->enum('gender' , ['male' , 'female']);
-            $table->enum('status' , ['active' , 'inactive']);
+            $table->enum('gender' , ['ذكر' , 'انثى']);
+            $table->enum('status' , ['فعال' , 'غير فعال']);
             $table->foreignId('city_id');
             $table->foreign('city_id')->on('cities')->references('id')->cascadeOnDelete();
+            $table->morphs('actor');
             $table->timestamps();
         });
     }

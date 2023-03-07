@@ -1,10 +1,10 @@
 @extends('cms.parent')
 
-@section('title' , 'Country')
+@section('title' , 'الدولة')
 
-@section('main-title' , 'Create Country')
+@section('main-title' , 'اضافة دولة')
 
-@section('sub-title' , 'create country')
+@section('sub-title' , 'اضافة دولة')
 
 @section('styles')
 
@@ -13,62 +13,57 @@
 @section('content')
 <section class="content">
     <div class="container-fluid">
-      <div class="row">
-        <!-- left column -->
-        <div class="col-md-12">
-          <!-- general form elements -->
-          <div class="card card-primary">
-            <div class="card-header">
-              <h3 class="card-title">Create Data of Country</h3>
-            </div>
-            <!-- /.card-header -->
-            <!-- form start -->
-            <form>
-              <div class="card-body">
-                <div class="form-group">
-                  <label for="name">Country Name</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name of Contry">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+                <div class="card-header">
+                <h3 class="card-title" style="float: right !important">اضافة دولة</h3>
                 </div>
-                <div class="form-group">
-                  <label for="code">Code</label>
-                  <input type="number" class="form-control" id="code" name="code" placeholder="Enter Code of Country">
-                </div>           
-              </div>
-              <!-- /.card-body -->
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                        <label for="name">اسم الدولة </label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="أدخل اسم الدولة">
+                        </div>
+                        <div class="form-group col-md-6">
+                        <label for="code">الكود</label>
+                        <input type="number" class="form-control" id="code" name="code" placeholder="أدخل كود الدولة">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
 
-              <div class="card-footer">
-                <button type="button" onclick="performStore()" class="btn btn-primary">Store</button>
-                <a href="{{ route('countries.index') }}" type="button" class="btn btn-info">Return Back</a>
-
-              </div>
-            </form>
-          </div>
-          <!-- /.card -->
-
-        
-        </div>
-        <!--/.col (left) -->
-      
-    
-        <!--/.col (right) -->
-      </div>
-      <!-- /.row -->
-    </div><!-- /.container-fluid -->
-  </section>
+                <div class="card-footer">
+                    <button type="button" onclick="performStore()" class="btn btn-success">حفظ</button>
+                    <a href="{{ route('countries.index') }}" type="button" class="btn btn-info"> قائمة الدول</a>
+                </div>
+                </form>
+            </div>
+            <!-- /.card -->
+            </div>
+            </div>
+        <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
 
 @endsection
 
 
 @section('scripts')
-  <script>
-    function performStore(){
+    <script>
+        function performStore(){
 
-      let formData = new FormData();
-      formData.append('name',document.getElementById('name').value);
-      formData.append('code',document.getElementById('code').value);
+        let formData = new FormData();
+        formData.append('name',document.getElementById('name').value);
+        formData.append('code',document.getElementById('code').value);
 
-      store('/cms/admin/countries' , formData);
-    }
+        store('/cms/admin/countries' , formData);
+        }
 
-  </script>
+    </script>
 @endsection

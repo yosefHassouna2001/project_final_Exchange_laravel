@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateViewersTable extends Migration
+class CreateArticlesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateViewersTable extends Migration
      */
     public function up()
     {
-        Schema::create('viewers', function (Blueprint $table) {
-            $table->id();
-            $table->string('email')->unique();
-            $table->string('password');
+        Schema::create('articles', function (Blueprint $table) {
+            $table->string('title');
+            $table->string('image')->nullable;
+            $table->string('short_description');
+            $table->string('full_description');
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 
@@ -28,6 +31,6 @@ class CreateViewersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('viewers');
+        Schema::dropIfExists('articles');
     }
 }
