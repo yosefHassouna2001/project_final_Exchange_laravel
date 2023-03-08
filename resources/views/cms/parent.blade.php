@@ -403,6 +403,68 @@
             </li>
             {{-- @endcanany --}}
 
+            {{-- @canAny(['Index-Location' , 'Create-Location']) --}}
+            <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-code-branch ml-2"></i>
+                <p>
+                    الفرع
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+                </a>
+                <ul class="nav nav-treeview">
+                {{-- @can('Index-Location') --}}
+                    <li class="nav-item">
+                        <a href="{{ route('branches.index') }}" class="nav-link">
+                            <i class="fas fa-desktop"></i>
+                        <p>  عرض الفروع</p>
+                        </a>
+                    </li>
+                {{-- @endcan --}}
+                {{-- @can('Create-Location') --}}
+                    <li class="nav-item">
+                        <a href="{{ route('branches.create') }}" class="nav-link">
+                            <i class="fas fa-plus"></i>
+                        <p>إضافة فرع جديدة</p>
+                        </a>
+                    </li>
+                {{-- @endcan --}}
+
+                </ul>
+            </li>
+            {{-- @endcanany --}}
+
+            {{-- @canAny(['Index-Articles' , 'Create-Articles']) --}}
+            <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-newspaper ml-2"></i>
+                <p>
+                    الاخبار
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+                </a>
+                <ul class="nav nav-treeview">
+                {{-- @can('Index-Articles') --}}
+                    <li class="nav-item">
+                        <a href="{{ route('articles.index') }}" class="nav-link">
+                            <i class="fas fa-desktop"></i>
+                        <p>  عرض الاخبار</p>
+                        </a>
+                    </li>
+                {{-- @endcan --}}
+                {{-- @can('Create-Articles') --}}
+                    <li class="nav-item">
+                        <a href="{{ route('articles.create') }}" class="nav-link">
+                            <i class="fas fa-plus"></i>
+                        <p>إضافة خبر جديدة</p>
+                        </a>
+                    </li>
+                {{-- @endcan --}}
+
+                </ul>
+            </li>
+            {{-- @endcanany --}}
+
             <li class="nav-header">
             إدارة التدريب
             </li>

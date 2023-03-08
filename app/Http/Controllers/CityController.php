@@ -8,6 +8,23 @@ use Illuminate\Http\Request;
 
 class CityController extends Controller
 {
+    // soft delete
+
+    //  function restoreindex
+    public function restoreindex()
+    {
+        $cities = City::onlyTrashed()->orderBy('deleted_at' , 'desc')->paginate(10);
+        return response()->view('cms.city.index' , compact('cities'));
+    }
+
+    //  function restore
+    public function restore( $id)
+    {
+        $cities = City::onlyTrashed()->findOrfail($id)->restore();
+        return redirect()->back();
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,8 +34,8 @@ class CityController extends Controller
     {
         $cities= City::with('country')->orderBy('id' , 'desc');
 
-    if ($request->get('city_name')) {
-        $cities = City::where('city_name', 'like', '%' . $request->city_name . '%');
+    if ($request->get('name')) {
+        $cities = City::where('name', 'like', '%' . $request->name . '%');
     }
     if ($request->get('street')) {
         $cities = City::where('street', 'like', '%' . $request->street . '%');
@@ -52,10 +69,18 @@ class CityController extends Controller
     public function store(Request $request)
     {
         $validator = Validator($request->all() ,[
-            'name' => 'required|string|min:4' ,
+            'name'=> 'required|string|min:3|max:20',
             'street' => 'required',
-            'country_id' => 'required'
-        ]);
+            'country_id' => 'required:cities',
+        ],[
+            'name.required' =>"الرجاء ادخال اسم المدينة !",
+            'name.min' =>"لا يقبل اسم المدينة اقل من 3 حروف !",
+            'name.max' =>"لا يقبل اسم المدينة اكثر من 30 حروف !",
+            'street.required' =>"الرجاء ادخال اسم الشارع !",
+            'country_id.required' =>"الرجاء ادخال اسم الدول !",
+        ]
+
+        );
 
         if(! $validator->fails()){
             $cities = new City();
@@ -65,7 +90,7 @@ class CityController extends Controller
 
             $isSaved = $cities->save();
 
-            return response()->json(['icon' => $isSaved ? 'success' : 'error' , 'title' => $isSaved ? "Created is Successfully" : "Created is Failed"] , $isSaved ? 200 : 400);
+            return response()->json(['icon' => $isSaved ? 'success' : 'error' , 'title' => $isSaved ? "تمت عملية الاضافة بنجاح" : "فشلت عملية الاضافة"] , $isSaved ? 200 : 400);
 
         }
 
@@ -82,7 +107,11 @@ class CityController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $countries = Country::all();
+        $cities = City::withTrashed()->findOrFail($id);
+        return response()->view('cms.city.show' , compact( 'countries' , 'cities'));
+
     }
 
     /**
@@ -108,10 +137,17 @@ class CityController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator($request->all() ,[
-            'name' => 'required|string|min:4' ,
+            'name'=> 'required|string|min:3|max:20',
             'street' => 'required',
-            'country_id' => 'required'
-        ]);
+            'country_id' => 'required:cities',
+        ],[
+            'name.required' =>"الرجاء ادخال اسم المدينة !",
+            'name.min' =>"لا يقبل اسم المدينة اقل من 3 حروف !",
+            'name.max' =>"لا يقبل اسم المدينة اكثر من 30 حروف !",
+            'street.required' =>"الرجاء ادخال اسم الشارع !",
+            'country_id.required' =>"الرجاء ادخال اسم الدول !",
+        ]
+        );
 
         if(! $validator->fails()){
             $cities = City::findOrFail($id);
@@ -121,7 +157,7 @@ class CityController extends Controller
 
             $isUpdate = $cities->save();
             return ['redirect' => route('cities.index')];
-            return response()->json(['icon' => $isUpdate ? 'success' : 'error' , 'title' => $isUpdate ? "Created is Successfully" : "Created is Failed"] , $isUpdate ? 200 : 400);
+            return response()->json(['icon' => $isUpdate ? 'success' : 'error' , 'title' => $isUpdate ? "تمت عملية التعديل بنجاح" : "فشلت عملية التعديل"] , $isUpdate ? 200 : 400);
 
         }
 
@@ -138,6 +174,22 @@ class CityController extends Controller
      */
     public function destroy($id)
     {
-        $cities = City::destroy($id);
+        $cities= City::withTrashed()->find($id);
+
+    //  function destroy
+
+        if($cities->deleted_at == null){
+            $cities = City::destroy($id);
+
+            return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف بنجاح"] , 200);
+        }
+
+    //  function forceDelete
+
+        if($cities->deleted_at !== null){
+            $cities->forceDelete();
+
+            return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف النهائي بنجاح"] , 200);
+        }
     }
 }

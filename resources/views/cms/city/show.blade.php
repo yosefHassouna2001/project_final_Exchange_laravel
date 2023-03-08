@@ -2,9 +2,9 @@
 
 @section('title' , 'المدينة')
 
-@section('main-title' , 'تعديل المدينة')
+@section('main-title' , 'معلومات المدينة')
 
-@section('sub-title' , 'تعديل المدنية')
+@section('sub-title' , 'معلومات المدنية')
 
 @section('styles')
 
@@ -19,7 +19,7 @@
             <!-- general form elements -->
             <div class="card card-primary">
                 <div class="card-header">
-                <h3 class="card-title" style="float: right !important">تعديل بيانات المدينة</h3>
+                <h3 class="card-title" style="float: right !important"> معلومات المدينة</h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
@@ -27,8 +27,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <label>الدولة</label>
-                            <select class="form-control select2" id="country_id" name="country_id" style="width: 100%;">
+                            <label>Country</label>
+                            <select class="form-control select2" id="country_id" disabled name="country_id" style="width: 100%;">
                                 @foreach ($countries as $country )
                                 <option @if ($country->id == $cities->country_id) selected @endif value="{{ $country->id }}">
                                             {{ $country->name }}</option>
@@ -37,12 +37,12 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="name">اسم المدينة</label>
-                            <input type="text" class="form-control" id="name" name="name"
+                            <input type="text" class="form-control" id="name" name="name" disabled
                                 value="{{ $cities->name }}" placeholder="أدخل اسم المدينة">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="street">الشارع</label>
-                            <input type="text" class="form-control" id="street" name="street"
+                            <input type="text" class="form-control" id="street" name="street" disabled
                             value="{{$cities->street}}" placeholder="أدخل اسم الشارع">
                         </div>
                     </div>
@@ -50,7 +50,14 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                    <button type="button" onclick="performUpdate({{$cities->id}})" class="btn btn-primary">تحديث <i class="fa-solid fa-arrows-rotate"></i></button>
+
+                    <a href="{{ route('restore-cities' , $cities->id) }}" type="button"
+                        @if($cities->deleted_at == null)
+                            hidden
+                        @endif
+                        class="btn btn-success">استرجاع &#x21BA;
+                    </a>
+
                     <a href="{{route('cities.index')}}" type="button" class="btn btn-secondary">قائمة المدن <i class="fa-solid fa-tree-city ml-2"></i></a>
 
                 </div>
@@ -68,17 +75,5 @@
 
 
 @section('scripts')
-    <script>
-        function performUpdate(id){
 
-        let formData = new FormData();
-
-        formData.append('name',document.getElementById('name').value);
-        formData.append('street',document.getElementById('street').value);
-        formData.append('country_id',document.getElementById('country_id').value);
-
-        storeRoute('/cms/admin/update-cities/' +id , formData);
-    }
-
-</script>
 @endsection

@@ -40,7 +40,7 @@
 
                 <div class="card-footer">
                     <button type="button" onclick="performStore()" class="btn btn-success">حفظ</button>
-                    <a href="{{ route('countries.index') }}" type="button" class="btn btn-info"> قائمة الدول</a>
+                    <a href="{{ route('countries.index') }}" type="button" class="btn btn-info"> قائمة الدول <i class="fa-solid fa-tree-city ml-2"></i></a>
                 </div>
                 </form>
             </div>

@@ -2,9 +2,9 @@
 
 @section('title' , 'الدولة')
 
-@section('main-title' , 'تعديل الدولة')
+@section('main-title' , 'معلومات الدولة')
 
-@section('sub-title' , 'تعديل الدولة')
+@section('sub-title' , 'معلومات الدولة')
 
 @section('styles')
 
@@ -19,7 +19,7 @@
             <!-- general form elements -->
             <div class="card card-primary">
                 <div class="card-header">
-                <h3 class="card-title" style="float: right !important">تعديل بيانات الدولة</h3>
+                <h3 class="card-title" style="float: right !important"> معلومات الدولة</h3>
 
                 </div>
                 <!-- /.card-header -->
@@ -29,12 +29,12 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                         <label for="name">اسم الدولة</label>
-                        <input type="text" class="form-control" id="name" name="name"
+                        <input type="text" class="form-control" id="name" name="name" disabled
                             value="{{ $countries->name }}" placeholder="أدخل اسم الدولة">
                         </div>
                         <div class="form-group col-md-6">
                         <label for="code">الكود</label>
-                        <input type="text" class="form-control" id="code" name="code"
+                        <input type="text" class="form-control" id="code" name="code" disabled
                         value="{{$countries->code}}" placeholder="أدخل كود الدولة">
                         </div>
                     </div>
@@ -42,8 +42,13 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                    <button type="button" onclick="performUpdate({{$countries->id}})" class="btn btn-primary">تحديث <i class="fa-solid fa-arrows-rotate"></i></button>
-                    <a href="{{route('countries.index')}}" type="button" class="btn btn-secondary">قائمة الدول <i class="fa-solid fa-tree-city ml-2"></i></a>
+                    <a href="{{ route('restore-countries' , $countries->id) }}" type="button"
+                        @if($countries->deleted_at == null)
+                            hidden
+                        @endif
+                        class="btn btn-success">استرجاع &#x21BA;
+                    </a>
+                    <a href="{{route('countries.index')}}" type="button" class="btn btn-secondary">قائمة الدول</a>
 
                 </div>
                 </form>
@@ -65,16 +70,5 @@
 
 
 @section('scripts')
-    <script>
-        function performUpdate(id){
 
-        let formData = new FormData();
-
-        formData.append('name',document.getElementById('name').value);
-        formData.append('code',document.getElementById('code').value);
-
-        storeRoute('/cms/admin/update-countries/' +id , formData);
-    }
-
-    </script>
 @endsection

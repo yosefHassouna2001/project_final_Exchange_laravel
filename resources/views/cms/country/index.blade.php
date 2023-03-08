@@ -26,7 +26,7 @@
                         <form action="" method="get" >
                             <div class="row">
                                 <div class=" col-md-4">
-                                    <button class="btn btn-success btn-md" type="submit">فلتر البحث</button>
+                                    <button class="btn btn-success btn-md" type="submit">فلتر البحث <i class="fa-solid fa-magnifying-glass"></i></button>
                                     <a href="{{route('countries.index')}}"  class="btn btn-danger">إنهاء البحث</a>
 
                                 </div>
@@ -50,11 +50,10 @@
                             </div>
                             <div class="row mt-3">
                                 <div class=" col-md-12 ">
-                                    <a href="{{route('countries.create')}}"><button type="button" class="btn btn-md btn-info"> إضافة دولة جديدة </button></a>
+                                    <a href="{{route('countries.create')}}"><button type="button" class="btn btn-md btn-info"> إضافة دولة جديدة <i class="fas fa-plus nav-icon"></i></button></a>
 
-                                    {{-- <a href="{{ route('admins.create') }}" type="submit" class="btn btn-info">Add New Admin</a> --}}
-                                    <a  href="{{ route('restoreindex') }}" type="submit" class="btn btn-secondary ms-3 float-right ">سلة المحذوفات <i class="fas  fa-trash-alt"></i></a>
-                                    <a  href="{{ route('admins.index') }}" type="submit" class="btn btn-success ml-3 float-right">قائمة الدول                     <i class="fa-solid fa-tree-city ml-2"></i>
+                                    <a  href="{{ route('restoreindex-countries') }}" type="submit" class="btn btn-secondary ms-3 float-right ">سلة المحذوفات <i class="fas  fa-trash-alt"></i></a>
+                                    <a  href="{{ route('countries.index') }}" type="submit" class="btn btn-success ml-3 float-right">قائمة الدول <i class="fa-solid fa-tree-city ml-2"></i>
                                     </a>
                                 </div>
                             </div>
@@ -63,12 +62,14 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
-                    {{-- <table class="table table-hover text-nowrap"> --}}
+                    {{-- <table class="table table-hover text-nowrap table-bordered"> --}}
                         <table class="table table-hover table-bordered table-striped text-nowrap text-center">
 
                     <thead>
+
                         <tr>
-                        <th>رقم الدولة</th>
+                        {{-- <th>رقم الدولة</th> --}}
+                        <th>#</th>
                         <th>اسم الدولة</th>
                         <th>الكود</th>
                         <th>عدد المدن</th>
@@ -84,20 +85,32 @@
                         <td><span class="badge bg-info p-1">({{$country->cities_count}}) مدن</td>
 
                         <td class="text-center">
-                            <div class="btn group">
-                                <a href="{{route('countries.edit' , $country->id)}}" type="button" class="btn btn-info">
-                                    <i class="fas fa-edit"></i>
-                                    {{-- <i class="far fa-edit"></i> --}}
+                            <div class="flex-nowrap d-flexd text-center " style="gap: 5px">
+                                <a href="{{route('countries.show',$country->id)}}" type="button"
+                                    class="btn btn-success mb-md-3 " title="Show">
+                                    <i class="fa-regular fa-eye"></i>
                                 </a>
-                                <a href="#" type="button" onclick="performDestroy({{ $country->id }} , this)" class="btn btn-danger">
+                                <a href="{{ route('countries.edit' , $country->id) }}" type="button"
+                                    @if($country->deleted_at !== null)
+                                    hidden
+                                    @endif
+                                    class="btn btn-info mb-md-3   ">
+                                <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{{ route('restore-countries' , $country->id) }}" type="button"
+                                    @if($country->deleted_at == null)
+                                    hidden
+                                    @endif
+                                    class="btn btn-info mb-md-3 ">
+                                    &#x21BA;
+                                </a>
+                                <a href="#" type="button" onclick="performDestroy({{ $country->id }} , this)" class="btn btn-danger mb-md-3">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
-                                </div>
+                            </div>
                         </td>
                     </tr>
                     @endforeach
-
-
                     </tbody>
                     </table>
                 </div>

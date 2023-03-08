@@ -1,11 +1,11 @@
 
 @extends('cms.parent')
 
-@section('title' , ' المدينة')
+@section('title' , ' الفرع')
 
-@section('main-title' , 'قائمة المدن')
+@section('main-title' , 'قائمة الفروع')
 
-@section('sub-title' , 'قائمة المدن')
+@section('sub-title' , 'قائمة الفروع')
 
 @section('styles')
 
@@ -25,19 +25,19 @@
                                 <div class="row">
                                     <div class=" col-md-4">
                                         <button class="btn btn-success btn-md" type="submit">فلتر البحث <i class="fa-solid fa-magnifying-glass"></i></button>
-                                        <a href="{{route('cities.index')}}"  class="btn btn-danger">إنهاء البحث</a>
+                                        <a href="{{route('branches.index')}}"  class="btn btn-danger">إنهاء البحث</a>
 
                                     </div>
                                     <div class="input-icon col-md-4">
-                                        <input type="text" class="form-control" placeholder="البحث باسم المدينة"
-                                            name='name' @if( request()->name) value={{request()->name}} @endif/>
+                                        <input type="text" class="form-control" placeholder="البحث باستخدام العنوان "
+                                            name='address' @if( request()->address) value={{request()->address}} @endif/>
                                             <span>
                                                 <i class="flaticon2-search-1 text-muted"></i>
                                             </span>
                                     </div>
                                     <div class="input-icon col-md-4">
-                                        <input type="text" class="form-control" placeholder="البحث باسم الشارع"
-                                            name='street' @if( request()->street) value={{request()->street}} @endif/>
+                                        <input type="text" class="form-control" placeholder="البحث باستخدام الايميل "
+                                            name='email' @if( request()->email) value={{request()->email}} @endif/>
                                         <span>
                                             <i class="flaticon2-search-1 text-muted"></i>
                                         </span>
@@ -45,10 +45,10 @@
                                 </div>
                                 <div class="row mt-3">
                                     <div class=" col-md-12 ">
-                                        <a href="{{route('cities.create')}}"><button type="button" class="btn btn-md btn-info"> إضافة مدينة جديدة <i class="fas fa-plus nav-icon"></i></button></a>
+                                        <a href="{{route('branches.create')}}"><button type="button" class="btn btn-md btn-info"> إضافة فرع جديد <i class="fas fa-plus nav-icon"></i></button></a>
 
-                                        <a  href="{{ route('restoreindex-cities') }}" type="submit" class="btn btn-secondary ms-3 float-right ">سلة المحذوفات <i class="fas  fa-trash-alt"></i></a>
-                                        <a  href="{{ route('cities.index') }}" type="submit" class="btn btn-success ml-3 float-right">قائمة المدن <i class="fa-solid fa-tree-city ml-2"></i>
+                                        <a  href="{{ route('restoreindex-branches') }}" type="submit" class="btn btn-secondary ms-3 float-right ">سلة المحذوفات <i class="fas  fa-trash-alt"></i></a>
+                                        <a  href="{{ route('branches.index') }}" type="submit" class="btn btn-success ml-3 float-right">قائمة الفروع <i class="fa-solid fa-code-branch"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -62,40 +62,40 @@
                             <thead>
                             <tr>
                                 <th style="width: 10px">#</th>
+                                <th>  العنوان</th>
+                                <th> الهاتف</th>
                                 <th>  اسم المدينة </th>
-                                <th> اسم الشارع </th>
-                                <th>  اسم الدولة </th>
                                 <th> الاعدادات </th>
                             </tr>
                             </thead>
                             <tbody>
-                                @foreach($cities as $city)
+                                @foreach($branches as $branch)
                                     <tr>
-                                        <td>{{ $city->id ?? ""}}</td>
-                                        <td>{{ $city->name ?? "" }}</td>
-                                        <td>{{ $city->street ?? "" }}</td>
-                                        <td><span class="badge bg-info"> {{ $city->country->name ?? "" }}</span></td>
+                                        <td>{{ $branch->id ?? ""}}</td>
+                                        <td>{{ $branch->address ?? "" }}</td>
+                                        <td>{{ $branch->phone ?? "" }}</td>
+                                        <td><span class="badge bg-info"> {{ $branch->city->name ?? "" }}</span></td>
                                         <td class="text-center">
                                             <div class="flex-nowrap d-flexd text-center " style="gap: 5px">
-                                                <a href="{{route('cities.show',$city->id)}}" type="button"
+                                                <a href="{{route('branches.show',$branch->id)}}" type="button"
                                                     class="btn btn-success mb-md-3 " title="Show">
                                                     <i class="fa-regular fa-eye"></i>
                                                 </a>
-                                                <a href="{{ route('cities.edit' , $city->id) }}" type="button"
-                                                    @if($city->deleted_at !== null)
+                                                <a href="{{ route('branches.edit' , $branch->id) }}" type="button"
+                                                    @if($branch->deleted_at !== null)
                                                     hidden
                                                     @endif
                                                     class="btn btn-info mb-md-3   ">
                                                 <i class="fas fa-edit"></i>
                                                 </a>
-                                                <a href="{{ route('restore-cities' , $city->id) }}" type="button"
-                                                    @if($city->deleted_at == null)
+                                                <a href="{{ route('restore-branches' , $branch->id) }}" type="button"
+                                                    @if($branch->deleted_at == null)
                                                     hidden
                                                     @endif
                                                     class="btn btn-info mb-md-3 ">
                                                     &#x21BA;
                                                 </a>
-                                                <a href="#" type="button" onclick="performDestroy({{ $city->id }} , this)" class="btn btn-danger mb-md-3">
+                                                <a href="#" type="button" onclick="performDestroy({{ $branch->id }} , this)" class="btn btn-danger mb-md-3">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </a>
                                             </div>
@@ -105,7 +105,7 @@
 
                             </tbody>
                         </table>
-                        {{ $cities->links() }}
+                        {{ $branches->links() }}
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -120,7 +120,7 @@
 
 <script>
     function performDestroy(id , referance){
-        confirmDestroy('/cms/admin/cities/' + id , referance)
+        confirmDestroy('/cms/admin/branches/' + id , referance)
     }
 </script>
 

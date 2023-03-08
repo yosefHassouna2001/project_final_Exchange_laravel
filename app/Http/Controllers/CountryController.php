@@ -7,6 +7,24 @@ use Illuminate\Http\Request;
 
 class CountryController extends Controller
 {
+
+// soft delete
+
+    //  function restoreindex
+    public function restoreindex()
+    {
+        $countries = Country::onlyTrashed()->orderBy('deleted_at' , 'desc')->paginate(10);
+        return response()->view('cms.country.index' , compact('countries'));
+    }
+
+    //  function restore
+    public function restore( $id)
+    {
+        $countries = Country::onlyTrashed()->findOrfail($id)->restore();
+        return redirect()->back();
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +34,6 @@ class CountryController extends Controller
     {
 
         $countries = Country::withCount('cities')->orderBy('id' ,'desc');
-
 
         if ($request->get('name')) {
             $countries = Country::where('name', 'like', '%' . $request->name . '%');
@@ -28,6 +45,7 @@ class CountryController extends Controller
         $countries = $countries->paginate(5);
 
         return response()->view('cms.country.index' , compact('countries'));
+
     }
 
     /**
@@ -55,7 +73,11 @@ class CountryController extends Controller
         ] , [
             'name.required' => 'هذا الحقل مطلوب' ,
             'name.min' => 'لا يمكن اضافة اقل من 3 حروف' ,
-            'name.max' => 'لا يمكن أضافة اكثر من 20 حرف'
+            'name.max' => 'لا يمكن أضافة اكثر من 20 حرف' ,
+            'name.string' => 'لا يمكن أضافة اكثر من 20 حرف' ,
+            'code.required' => 'هذا الحقل مطلوب' ,
+            'code.numeric' => 'يرجى كتابة الكود رقم' ,
+            'code.digits' => 'لا يمكن أضافة اكثر من 3 ارقام' ,
 
         ]);
 
@@ -68,10 +90,10 @@ class CountryController extends Controller
             $isSaved = $countries->save();
 
             if($isSaved){
-                return response()->json(['icon' => 'success' , 'title' => "Created is Successfully"] , 200);
+                return response()->json(['icon' => 'success' , 'title' => "تمت عملية الاضافة بنجاح"] , 200);
             }
             else{
-                return response()->json(['icon' => 'error' , 'title' => "Created is Failed"] , 400);
+                return response()->json(['icon' => 'error' , 'title' => "فشلت عملية الاضافة"] , 400);
             }
         }
         else{
@@ -88,7 +110,9 @@ class CountryController extends Controller
      */
     public function show($id)
     {
-        //
+        $countries = Country::withTrashed()->findOrFail($id);
+        return response()->view('cms.country.show' , compact( 'countries' ));
+
     }
 
     /**
@@ -115,6 +139,15 @@ class CountryController extends Controller
         $validator = Validator($request->all() , [
             'name' => 'required|string|min:3|max:20',
             'code' => 'required|numeric|digits:3',
+        ] , [
+            'name.required' => 'هذا الحقل مطلوب' ,
+            'name.min' => 'لا يمكن اضافة اقل من 3 حروف' ,
+            'name.max' => 'لا يمكن أضافة اكثر من 20 حرف' ,
+            'name.string' => 'لا يمكن أضافة اكثر من 20 حرف' ,
+            'code.required' => 'هذا الحقل مطلوب' ,
+            'code.numeric' => 'يرجى كتابة الكود رقم' ,
+            'code.digits' => 'لا يمكن أضافة اكثر من 3 ارقام' ,
+
         ]);
 
         if (! $validator->fails()){
@@ -126,11 +159,10 @@ class CountryController extends Controller
             $isUpdated = $countries->save();
             return ['redirect' => route('countries.index')];
             if($isUpdated){
-                return response()->json(['icon' => 'success' , 'title' => 'Updated is Successfully'] , 200);
+                return response()->json(['icon' => 'success' , 'title' => "تمت عملية التعديل بنجاح"] , 200);
             }
             else{
-                return response()->json(['icon' => 'error' , 'title' => 'Updated is Failed'] , 400);
-
+                return response()->json(['icon' => 'error' , 'title' => "فشلت عملية التعديل"] , 400);
             }
         }
         else{
@@ -146,7 +178,22 @@ class CountryController extends Controller
      */
     public function destroy($id)
     {
-        $countries = Country::destroy($id);
-        return response()->json(['icon' => 'success' , 'title'=> "Deleted is Successfully"] , 200);
+        $countries= Country::withTrashed()->find($id);
+
+    //  function destroy
+
+        if($countries->deleted_at == null){
+            $countries = Country::destroy($id);
+
+            return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف بنجاح"] , 200);
+        }
+
+    //  function forceDelete
+
+        if($countries->deleted_at !== null){
+            $countries->forceDelete();
+
+            return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف النهائي بنجاح"] , 200);
+        }
     }
 }

@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RolePermissionController;
@@ -56,6 +58,7 @@ Route::prefix('cms/admin/')->middleware('auth:admin')->group(function(){
     // Route::view('' , 'cms.parentOld');
     Route::view('temp' , 'cms.temp');
     Route::view('index' , 'cms.country.index');
+
     Route::resource('countries' , CountryController::class);
     Route::post('update-countries/{id}' , [CountryController::class , 'update'])->name('update-countries');
 
@@ -65,13 +68,36 @@ Route::prefix('cms/admin/')->middleware('auth:admin')->group(function(){
     // Route::post('permissions-update' , [PermissionController::class , 'update']);
     // Route::resource('roles.permissions' , RolePermissionController::class);
 
+    // Country
+    Route::resource('countries' , CountryController::class);
+    Route::post('update-countries/{id}' , [CountryController::class , 'update'])->name('update-countries');
+    Route::get('restoreindex-countries', [CountryController::class, 'restoreindex'])->name('restoreindex-countries');
+    Route::get('restore-countries/{id}', [CountryController::class, 'restore'])->name('restore-countries');
+
+    // Country
     Route::resource('cities' , CityController::class);
     Route::post('update-cities/{id}' , [CityController::class , 'update'])->name('update-cities');
+    Route::get('restoreindex-cities', [CityController::class, 'restoreindex'])->name('restoreindex-cities');
+    Route::get('restore-cities/{id}', [CityController::class, 'restore'])->name('restore-cities');
 
+    // Location
+    Route::resource('branches' , BranchController::class);
+    Route::post('update-branches/{id}' , [BranchController::class , 'update'])->name('update-branches');
+    Route::get('restoreindex-branches', [BranchController::class, 'restoreindex'])->name('restoreindex-branches');
+    Route::get('restore-branches/{id}', [BranchController::class, 'restore'])->name('restore-branches');
+
+    // Admin
     Route::resource('admins' , AdminController::class);
     Route::post('update-admins/{id}' , [AdminController::class , 'update'])->name('update-admins');
-    Route::get('restoreindex', [AdminController::class, 'restoreindex'])->name('restoreindex');
-    Route::get('restore/{id}', [AdminController::class, 'restore'])->name('restore');
+    Route::get('restoreindex-admins', [AdminController::class, 'restoreindex'])->name('restoreindex-admins');
+    Route::get('restore-admins/{id}', [AdminController::class, 'restore'])->name('restore-admins');
+
+    // Article
+    Route::resource('articles' , ArticleController::class);
+    Route::post('update-articles/{id}' , [ArticleController::class , 'update'])->name('update-articles');
+    Route::get('restoreindex-articles', [ArticleController::class, 'restoreindex'])->name('restoreindex-articles');
+    Route::get('restore-articles/{id}', [ArticleController::class, 'restore'])->name('restore-articles');
+
 
     // Route::resource('authors' , AuthorController::class);
     // Route::post('update-authors/{id}' , [AuthorController::class , 'update'])->name('update-authors');

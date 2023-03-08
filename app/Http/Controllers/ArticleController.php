@@ -3,36 +3,51 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category;
-use App\Models\Author;
 use App\Models\Article;
 
 class ArticleController extends Controller
 {
+
+// soft delete
+
+    //  function restoreindex
+    public function restoreindex()
+    {
+        $articles = Article::onlyTrashed()->orderBy('deleted_at' , 'desc')->paginate(10);
+        return response()->view('cms.article.index' , compact('articles'));
+    }
+
+    //  function restore
+    public function restore( $id)
+    {
+        $articles = Article::onlyTrashed()->findOrfail($id)->restore();
+        return redirect()->back();
+
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
 
+    public function index(Request $request)
+    {
 
-    public function indexArticle($id)
-    {
-        //
-        $articles = Article::where('author_id', $id)->orderBy('created_at', 'desc')->paginate(5);
-        return response()->view('cms.article.index', compact('articles','id'));
-    }
+        $articles = Article::orderBy('id' ,'desc');
 
-    public function createArticle($id)
-    {
-        $categories = Category::where('status' , 'active')->get();
-        $authors = Author::all();
-        return response()->view('cms.article.create' , compact('categories' , 'authors' , 'id'));
-    }
-    public function index()
-    {
-        $articles = Article::orderBy('id' , 'desc')->paginate(5);
-        return response()->view('cms.article.indexAll' , compact('articles'));
+
+        if ($request->get('title')) {
+            $articles = Article::where('title', 'like', '%' . $request->title . '%');
+        }
+        if ($request->get('short_description')) {
+            $articles = Article::where('short_description', 'like', '%' . $request->short_description . '%');
+        }
+
+        $articles = $articles->paginate(5);
+
+        return response()->view('cms.article.index' , compact('articles'));
+
     }
 
     /**
@@ -42,9 +57,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $categories = Category::where('status' , 'active')->get();
-        $authors = Author::all();
-        return response()->view('cms.article.create' , compact('categories' , 'authors' ));
+        return response()->view('cms.article.create');
     }
 
     /**
@@ -56,13 +69,15 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $validator = Validator($request->all() , [
-            'title' => 'required|string|min:3|max:20',
-            
-        ] , [
-            // 'name.required' => 'هذا الحقل مطلوب' ,
-            // 'name.min' => 'لا يمكن اضافة اقل من 3 حروف' ,
-            // 'name.max' => 'لا يمكن أضافة اكثر من 20 حرف'
+            'title' => 'required',
+            'short_description' => 'required',
+            'full_description' => 'nullable',
+            'image' => 'required',
 
+        ] , [
+            'title.required' => 'الرجاء اضافة قيمة للعنوان' ,
+            'short_description.required' => ' الرجاء اضافة قيمة للوصف ' ,
+            'image.required' => ' الرجاء اضافة صورة  ' ,
         ]);
 
         if(! $validator->fails()){
@@ -72,8 +87,6 @@ class ArticleController extends Controller
             $articles->short_description = $request->get('short_description');
             $articles->full_description = $request->get('full_description');
 
-            $articles->category_id = $request->get('category_id');
-            $articles->author_id = $request->get('author_id');
 
             if (request()->hasFile('image')) {
 
@@ -87,17 +100,13 @@ class ArticleController extends Controller
                 }
 
             $isSaved = $articles->save();
-    
-            if($isSaved){
-                return response()->json(['icon' => 'success' , 'title' => "Created is Successfully"] , 200);
-            }
-            else{
-                return response()->json(['icon' => 'error' , 'title' => "Created is Failed"] , 400);
-            }
+
+            return response()->json(['icon' => $isSaved ? 'success' : 'error' , 'title' => $isSaved ? "تمت عملية الاضافة بنجاح" : "فشلت عملية الاضافة"] , $isSaved ? 200 : 400);
+
         }
         else{
             return response()->json(['icon'=>'error' , 'title' => $validator->getMessageBag()->first()] , 400);
-        }   
+        }
      }
 
     /**
@@ -108,10 +117,8 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $categories = Category::all();
-        $authors = Author::all();
-        $articles = Article::findOrFail($id);
-        return response()->view('cms.article.show' , compact('categories' , 'authors' , 'articles' ));
+        $articles = Article::withTrashed()->findOrFail($id);
+        return response()->view('cms.article.show' , compact('articles' ));
     }
 
     /**
@@ -122,10 +129,8 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        $categories = Category::where('status' , 'active')->get();
-        $authors = Author::all();
         $articles = Article::findOrFail($id);
-        return response()->view('cms.article.edit' , compact('categories' , 'authors' , 'articles' ));
+        return response()->view('cms.article.edit' , compact( 'articles' ));
     }
 
     /**
@@ -138,10 +143,16 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator($request->all() , [
-            'title' => 'required|string|min:3|max:20',
-            
+            'title' => 'required',
+            'short_description' => 'required',
+            'image' => 'required',
+
+
         ] , [
-           
+            'title.required' => 'الرجاء اضافة قيمة للعنوان' ,
+            'short_description.required' => ' الرجاء اضافة قيمة للوصف ' ,
+            'image.required' => ' الرجاء اضافة صورة  ' ,
+
         ]);
 
         if(! $validator->fails()){
@@ -150,8 +161,6 @@ class ArticleController extends Controller
             $articles->title = $request->get('title');
             $articles->short_description = $request->get('short_description');
             $articles->full_description = $request->get('full_description');
-            $articles->category_id = $request->get('category_id');
-            $articles->author_id = $request->get('author_id');
 
             if (request()->hasFile('image')) {
 
@@ -167,18 +176,14 @@ class ArticleController extends Controller
             $isUpdate = $articles->save();
             return ['redirect'=>route('articles.index')];
 
-            if($isUpdate){
-                return response()->json(['icon' => 'success' , 'title' => "Created is Successfully"] , 200);
-            }
-            else{
-                return response()->json(['icon' => 'error' , 'title' => "Created is Failed"] , 400);
-            }
+            return response()->json(['icon' => $isUpdate ? 'success' : 'error' , 'title' => $isUpdate ? "تمت عملية التعديل بنجاح" : "فشلت عملية التعديل"] , $isUpdate ? 200 : 400);
+
         }
         else{
             return response()->json(['icon'=>'error' , 'title' => $validator->getMessageBag()->first()] , 400);
-        }   
+        }
      }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -188,6 +193,22 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        $articles = Article::destroy($id);
+        $articles= Article::withTrashed()->find($id);
+
+        //  function destroy
+
+            if($articles->deleted_at == null){
+                $articles = Article::destroy($id);
+
+                return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف بنجاح"] , 200);
+            }
+
+        //  function forceDelete
+
+            if($articles->deleted_at !== null){
+                $articles->forceDelete();
+
+                return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف النهائي بنجاح"] , 200);
+            }
+        }
     }
-}
