@@ -1,0 +1,69 @@
+:root{
+    --primaryColor : #24126A;
+    --hoverLink : #df990c;
+    --whiteColor : #fff;
+    --blackColor : #333;
+    --bodyColor :#f9f9fa;
+}
+
+.contact .info {
+    border-top: 3px solid var(--primaryColor);
+    border-bottom: 3px solid var(--primaryColor);
+    padding: 30px;
+    width: 100%;
+    background-color: #f9f9fa;
+}
+form {
+    width: 100%;
+    border-top: 3px solid var(--primaryColor);
+    border-bottom: 3px solid var(--primaryColor);
+    padding: 30px;
+    background-color: #f9f9fa;
+}
+
+.contact .info {
+    border-top: 3px solid var(--primaryColor);
+    border-bottom: 3px solid var(--primaryColor);
+    padding: 30px;
+    width: 100%;
+    background-color: #f9f9fa;
+}
+
+.contact .info i {
+    font-size: 20px;
+    color: var(--primaryColor);
+    float: left;
+    width: 44px;
+    height: 44px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    transition: all 0.3s ease-in-out;
+}
+.contact .info h4 {
+    padding: 0 0 0 60px;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #5f687b;
+}
+
+.contact .info .email:hover i, .contact .info .address:hover i, .contact .info .phone:hover i {
+    background: var(--primaryColor);
+    color: var(--whiteColor);
+}
+
+.contact .php-email-form button[type=submit]:hover {
+    background: var(--hoverLink);
+}
+
+.contact .php-email-form button[type=submit] {
+    background: var(--primaryColor);
+    border: 0;
+    padding: 10px 24px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 4px;
+}

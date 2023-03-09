@@ -22,18 +22,24 @@ class UserAuthController extends Controller
         $validator = Validator($request->all() ,[
             'email' => 'required|email' ,
             'password' => 'required|string',
-        ]);
 
+        ],[
+            'email.required' =>"الرجاء ادخال الايميل  !",
+            'email.email' =>" الرجاء كتابة الايميل بشكل صحيح !" ,
+            'password.required' =>"الرجاء ادخال كلمة السر  !",
+            'password.string' =>"الرجاء ادخال كلمة السر  !",
+        ]
+    );
         $credintials =[
             'email' => $request->get('email'),
             'password' => $request->get('password'),
         ] ;
         if(! $validator->fails()){
             if(Auth::guard($request->get('guard'))->attempt($credintials)){
-                return response()->json(['icon' => 'success' , 'title' =>'Login is Succesfully' ] , 200);
+                return response()->json(['icon' => 'success' , 'title' =>'تم تسجيل الدخول بنجاح' ] , 200);
             }
             else {
-                return response()->json(['icon' => 'error' , 'title' =>'Login is Failed' ] , 400);
+                return response()->json(['icon' => 'error' , 'title' =>'فشلت عملية تسجيل الدخول' ] , 400);
 
             }
         }
@@ -47,7 +53,7 @@ class UserAuthController extends Controller
         $guard = auth('admin')->check() ? 'admin' : 'author';
         Auth::guard($guard)->logout();
         $request->session()->invalidate();
-        return redirect()->route('view.login' , $guard);
+        return redirect()->route('login' , $guard);
 
 
     }
@@ -63,7 +69,7 @@ class UserAuthController extends Controller
             $authors = Author::findOrFail(Auth::guard('author')->id());
             return response()->view('cms.auth.edit' , compact('authors'));
         }
-       
+
     }
 
     public function UpdateProfile1(Request $request){
@@ -73,29 +79,29 @@ class UserAuthController extends Controller
             $validator = Validator($request->all() , [
                 'password' => 'nullable',
             ]);
-    
+
             if(! $validator->fails()){
                 $admins = Admin::findOrFail(Auth::guard('admin')->id());
 
                 $admins->email = $request->get('email');
                 $isSaved = $admins->save();
-    
+
                 if($isSaved){
                     $users = $admins->user;
                     $roles = Role::findOrFail($request->get('role_id'));
                     $admins->assignRole($roles->name);
-    
+
                     if (request()->hasFile('image')) {
-    
+
                         $image = $request->file('image');
-    
+
                         $imageName = time() . 'image.' . $image->getClientOriginalExtension();
-    
+
                         $image->move('storage/images/admin', $imageName);
-    
+
                         $users->image = $imageName;
                         }
-    
+
                     $users->first_name = $request->get('first_name');
                     $users->last_name = $request->get('last_name');
                     $users->status = $request->get('status');
@@ -105,11 +111,11 @@ class UserAuthController extends Controller
                     $users->address = $request->get('address');
                     $users->mobile = $request->get('mobile');
                     $users->actor()->associate($admins);
-    
+
                     $isSaved = $users->save();
-    
+
                     return ['redirect'=>route('admins.index')];
-    
+
                 }
             }
             else{
@@ -122,25 +128,25 @@ class UserAuthController extends Controller
             $validator = Validator($request->all() , [
                 'password' => 'nullable',
             ]);
-    
+
             if(! $validator->fails()){
                 $authors = Author::findOrFail(Auth::guard('author')->id());
                 $authors->email = $request->get('email');
                 $isSaved = $authors->save();
                 if($isSaved){
                     $users = $authors->user;
-    
+
                     if (request()->hasFile('image')) {
-    
+
                         $image = $request->file('image');
-    
+
                         $imageName = time() . 'image.' . $image->getClientOriginalExtension();
-    
+
                         $image->move('storage/images/Author', $imageName);
-    
+
                         $users->image = $imageName;
                         }
-    
+
                     $users->first_name = $request->get('first_name');
                     $users->last_name = $request->get('last_name');
                     $users->status = $request->get('status');
@@ -150,11 +156,11 @@ class UserAuthController extends Controller
                     $users->address = $request->get('address');
                     $users->mobile = $request->get('mobile');
                     $users->actor()->associate($authors);
-    
+
                     $isSaved = $users->save();
-    
+
                     return ['redirect'=>route('authors.index')];
-    
+
                 }
             }
             else{
@@ -170,7 +176,7 @@ class UserAuthController extends Controller
 
 
     public function updatePassword(Request $request){
-        
+
         $guard = auth('admin')->check() ? 'admin' : 'author';
         $validator = Validator($request->all() ,[
             'password' => 'required|string|current_password:' .$guard,
@@ -203,7 +209,8 @@ class UserAuthController extends Controller
         if (Auth::guard('admin')->id()){
             $admins = Admin::findOrFail(Auth::guard('admin')->id());
             $cities = City::all();
-            return response()->view('cms.admin.edit' ,compact('admins' , 'cities'));
+            // return response()->view('cms.admin.edit' ,compact('admins' , 'cities'));
+            return response()->view('cms.auth.edit-profile' ,compact('admins' , 'cities'));
 
         }
         elseif (Auth::guard('author')->id()){

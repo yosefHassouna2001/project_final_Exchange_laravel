@@ -53,7 +53,7 @@
                                     <a href="{{route('articles.create')}}"><button type="button" class="btn btn-md btn-info"> إضافة خبر جديد <i class="fas fa-plus nav-icon"></i></button></a>
 
                                     <a  href="{{ route('restoreindex-articles') }}" type="submit" class="btn btn-secondary ms-3 float-right ">سلة المحذوفات <i class="fas  fa-trash-alt"></i></a>
-                                    <a  href="{{ route('articles.index') }}" type="submit" class="btn btn-success ml-3 float-right">قائمة الاخبار <i class="fa-solid fa-tree-city ml-2"></i>
+                                    <a  href="{{ route('articles.index') }}" type="submit" class="btn btn-success ml-3 float-right">قائمة الاخبار <i class="fa-solid fa-newspaper"></i>
                                     </a>
                                 </div>
                             </div>

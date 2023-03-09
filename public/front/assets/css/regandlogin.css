@@ -1,0 +1,30 @@
+:root{
+    --primaryColor : #24126A;
+    --hoverLink : #df990c;
+    --whiteColor : #fff;
+    --blackColor : #333;
+    --bodyColor :#f9f9fa;
+}
+
+
+.contact .php-email-form {
+    width: 100%;
+    border-top: 3px solid var(--primaryColor);
+    border-bottom: 3px solid var(--primaryColor);
+    padding: 30px;
+    background-color: #f9f9fa;
+}
+
+.contact .php-email-form button[type=submit] {
+    background: var(--primaryColor);
+    border: 0;
+    padding: 10px 24px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 4px;
+}
+
+.contact .php-email-form button[type=submit]:hover {
+    background: var(--hoverLink);
+}
+

@@ -1,10 +1,10 @@
 @extends('cms.parent')
 
-@section('title' , 'Admin')
+@section('title' , 'المشرفين')
 
-@section('main-title' , 'Edit Admin')
+@section('main-title' , 'تعديل المشرف')
 
-@section('sub-title' , 'Edit Admin')
+@section('sub-title' , 'تعديل المشرف')
 
 @section('styles')
 
@@ -19,7 +19,7 @@
           <!-- general form elements -->
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">Edit Data of Admin</h3>
+              <h3 class="card-title">تعديل بيانات المشرف</h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
@@ -29,71 +29,71 @@
               <div class="row">
 
                 <div class="form-group col-md-6">
-                  <label for="first_name">First Name of Admin</label>
+                  <label for="first_name">الاسم الاول</label>
                   <input type="text" class="form-control" id="first_name" name="first_name"
                   value="{{ $admins->user->first_name }}" placeholder="Enter First Name of Admin">
                 </div>
 
                 <div class="form-group col-md-6">
-                  <label for="last_name">Last Name of Admin</label>
+                  <label for="last_name">الاسم الثاني</label>
                   <input type="text" class="form-control" id="last_name" name="last_name"
                   value="{{ $admins->user->last_name }}" placeholder="Enter Last Name of Admin">
-                </div>           
+                </div>
               </div>
 
                  <div class="row">
 
                 <div class="form-group col-md-6">
-                  <label for="email">Email of Admin</label>
-                  <input type="email" class="form-control" id="email" name="email" 
+                  <label for="email">الايميل</label>
+                  <input type="email" class="form-control" id="email" name="email"
                   value="{{ $admins->email}}" placeholder="Enter Email of Admin">
                 </div>
 
                 <div class="form-group col-md-6">
-                  <label for="password"> password of Admin</label>
+                  <label for="password"> كلمة المرور</label>
                   <input type="password" class="form-control" disabled id="password" name="password" placeholder="Enter password of Admin">
-                </div>           
+                </div>
               </div>
 
             <div class="row">
 
                 <div class="form-group col-md-6">
-                  <label for="mobile">Mobile of Admin</label>
+                  <label for="mobile">رقم الهاتف</label>
                   <input type="text" class="form-control" id="mobile" name="mobile"
                   value="{{ $admins->user->mobile }}" placeholder="Mobile of Admin">
                 </div>
 
                 <div class="form-group col-md-6">
-                  <label for="address">address of Admin</label>
-                  <input type="text" class="form-control" id="address" name="address" 
+                  <label for="address">العنوان</label>
+                  <input type="text" class="form-control" id="address" name="address"
                   value="{{ $admins->user->address }}" placeholder="Enter address of Admin">
-                </div>           
+                </div>
               </div>
             <div class="row">
 
               <div class="form-group col-md-6">
-                     <label for="status"> Status</label>
+                     <label for="status"> الحالة</label>
                      <select class="form-select form-select-sm" name="status" style="width: 100%;"
                            id="status" aria-label=".form-select-sm example">
                            <option selected> {{ $admins->user->status }} </option>
-                           <option value="active">Active </option>
-                          <option value="inactive">InActive </option>                    
+                           <option value="active">فعال </option>
+                          <option value="inactive">غير فعال </option>
                        </select>
               </div>
-          
+
           <div class="form-group col-md-6">
-                     <label for="gender">Gender</label>
+                     <label for="gender">الجنس</label>
                      <select class="form-select form-select-sm" name="gender" style="width: 100%;"
                            id="gender" aria-label=".form-select-sm example">
                            <option selected> {{ $admins->user->gender }} </option>
-                           <option value="male">Male </option>
-                          <option value="female">female </option>                    
+                           <option value="male">ذكر </option>
+                          <option value="female">انثى </option>
                        </select>
               </div>
-          </div>      
+          </div>
               <div class="row">
                     <div class="form-group col-md-6">
-                      <label>City</label>
+                      <label>المدينة</label>
                       <select class="form-control select2" id="city_id" name="city_id" style="width: 100%;">
                         {{-- <option selected> {{ $admins->user->city->name }} </option> --}}
                       @foreach($cities as $city)
@@ -101,38 +101,38 @@
                       @endforeach
                       </select>
                     </div>
-                 
+
                   <div class="form-group col-md-6">
-                  <label for="date">Date of Birth </label>
-                  <input type="date" class="form-control" id="date" name="date" 
+                  <label for="date">تاريخ الميلاد </label>
+                  <input type="date" class="form-control" id="date" name="date"
                   value="{{ $admins->user->date }}" placeholder="Enter Date of Admin">
-                </div> 
+                </div>
 
               </div>
 
                  <div class="row">
                   <div class="form-group col-md-12">
-                  <label for="image">Image of Admin</label>
+                  <label for="image">الصورة</label>
                   <input type="file" class="form-control" id="image" name="image" placeholder="Enter Date of Admin">
-                </div> 
-                 </div> 
+                </div>
+                 </div>
 
               <!-- /.card-body -->
 
               <div class="card-footer">
-                <button type="button" onclick="performUpdate()" class="btn btn-primary">Store</button>
-                <a href="{{ route('admins.index') }}" type="button" class="btn btn-info">Return Back</a>
+                <button type="button" onclick="performUpdate()" class="btn btn-primary">تحديث</button>
+                <a href="{{ route('admins.index') }}" type="button" class="btn btn-info">قائمة المشرفين</a>
 
               </div>
             </form>
           </div>
           <!-- /.card -->
 
-        
+
         </div>
         <!--/.col (left) -->
-      
-    
+
+
         <!--/.col (right) -->
       </div>
       <!-- /.row -->

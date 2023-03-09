@@ -240,7 +240,7 @@
                     <li class="nav-item">
                     {{-- <a href="{{ route('roles.index') }}" class="nav-link"> --}}
                     <a href="#" class="nav-link">
-                        <i class="fas fa-desktop ml-2"></i>
+                        <i class="fas fa-desktop mx-2 ml-4"></i>
                         <p>  عرض الأدوار</p>
                     </a>
                     </li>
@@ -249,7 +249,7 @@
                     <li class="nav-item">
                     {{-- <a href="{{route('roles.create') }}" class="nav-link"> --}}
                     <a href="#" class="nav-link">
-                        <i class="fas fa-plus ml-2"></i>
+                        <i class="fas fa-plus mx-2 ml-4"></i>
                         <p>إضافة دور جديد</p>
                     </a>
                     </li>
@@ -277,7 +277,7 @@
                     <li class="nav-item">
                         {{-- <a href="{{ route('permissions.index') }}" class="nav-link"> --}}
                         <a href="#" class="nav-link">
-                            <i class="fas fa-desktop ml-2"></i>
+                            <i class="fas fa-desktop mx-2 ml-4"></i>
                         <p>  عرض الصلاحيات</p>
                         </a>
                     </li>
@@ -287,7 +287,7 @@
                     <li class="nav-item">
                         {{-- <a href="{{route('permissions.create') }}" class="nav-link"> --}}
                         <a href="#" class="nav-link">
-                            <i class="fas fa-plus ml-2"></i>
+                            <i class="fas fa-plus mx-2 ml-4"></i>
                             <p>إضافة صلاحية جديدة</p>
                         </a>
                     </li>
@@ -318,7 +318,7 @@
                 {{-- @can('Index-Admin') --}}
                     <li class="nav-item">
                         <a href="{{ route('admins.index') }}" class="nav-link">
-                            <i class="fas fa-desktop ml-2"></i>
+                            <i class="fas fa-desktop mx-2 ml-4"></i>
                         <p>  عرض  </p>
                         </a>
                     </li>
@@ -327,7 +327,7 @@
                 {{-- @can('Create-Admin') --}}
                     <li class="nav-item">
                         <a href="{{route('admins.create') }}" class="nav-link">
-                            <i class="fas fa-plus ml-2"></i>
+                            <i class="fas fa-plus mx-2 ml-4"></i>
                         <p>إضافة ادمن جديد</p>
                         </a>
                     </li>
@@ -354,7 +354,7 @@
                 {{-- @can('Index-Country') --}}
                     <li class="nav-item">
                         <a href="{{ route('countries.index') }}" class="nav-link">
-                            <i class="fas fa-desktop"></i>
+                            <i class="fas fa-desktop mx-2 ml-4"></i>
                         <p>  عرض الدول</p>
                         </a>
                     </li>
@@ -362,7 +362,7 @@
                 {{-- @can('Create-Country') --}}
                     <li class="nav-item">
                         <a href="{{ route('countries.create') }}" class="nav-link">
-                            <i class="fas fa-plus"></i>
+                            <i class="fas fa-plus mx-2 ml-4"></i>
                         <p>إضافة دولة جديدة</p>
                         </a>
                     </li>
@@ -385,7 +385,7 @@
                 {{-- @can('Index-City') --}}
                     <li class="nav-item">
                         <a href="{{ route('cities.index') }}" class="nav-link">
-                            <i class="fas fa-desktop"></i>
+                            <i class="fas fa-desktop mx-2 ml-4"></i>
                         <p>  عرض المدن</p>
                         </a>
                     </li>
@@ -393,7 +393,7 @@
                 {{-- @can('Create-City') --}}
                     <li class="nav-item">
                         <a href="{{ route('cities.create') }}" class="nav-link">
-                            <i class="fas fa-plus"></i>
+                            <i class="fas fa-plus mx-2 ml-4"></i>
                         <p>إضافة مدينة جديدة</p>
                         </a>
                     </li>
@@ -416,7 +416,7 @@
                 {{-- @can('Index-Location') --}}
                     <li class="nav-item">
                         <a href="{{ route('branches.index') }}" class="nav-link">
-                            <i class="fas fa-desktop"></i>
+                            <i class="fas fa-desktop mx-2 ml-4"></i>
                         <p>  عرض الفروع</p>
                         </a>
                     </li>
@@ -424,7 +424,7 @@
                 {{-- @can('Create-Location') --}}
                     <li class="nav-item">
                         <a href="{{ route('branches.create') }}" class="nav-link">
-                            <i class="fas fa-plus"></i>
+                            <i class="fas fa-plus mx-2 ml-4"></i>
                         <p>إضافة فرع جديدة</p>
                         </a>
                     </li>
@@ -447,7 +447,7 @@
                 {{-- @can('Index-Articles') --}}
                     <li class="nav-item">
                         <a href="{{ route('articles.index') }}" class="nav-link">
-                            <i class="fas fa-desktop"></i>
+                            <i class="fas fa-desktop mx-2 ml-4"></i>
                         <p>  عرض الاخبار</p>
                         </a>
                     </li>
@@ -455,7 +455,7 @@
                 {{-- @can('Create-Articles') --}}
                     <li class="nav-item">
                         <a href="{{ route('articles.create') }}" class="nav-link">
-                            <i class="fas fa-plus"></i>
+                            <i class="fas fa-plus mx-2 ml-4"></i>
                         <p>إضافة خبر جديدة</p>
                         </a>
                     </li>
@@ -475,28 +475,20 @@
 
                 <li class="nav-item">
 
-                {{-- <a href="{{ route('dashboard.auth.profile-edit') }}" class="nav-link"> --}}
-                {{-- <a href="{{route('edit-profile-admin')}}" class="nav-link"> --}}
-
-                    <a href="#" class="nav-link">
+                <a href="{{ route('edit-profile-admin') }}" class="nav-link">
                         <i class="fas fa-user-cog ml-2"></i>
                         <p>   تعديل الصفحة الشخصية</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    {{-- <a href="{{ route('cms.admin.edit-password') }}" class="nav-link"> --}}
-                    {{-- <a href="{{ route('change_password') }}" class="nav-link"> --}}
+                    <a href="{{ route('change_password') }}" class="nav-link">
 
-                    <a href="#" class="nav-link">
                         <i class="fas fa-lock ml-2"></i>
                         <p> تغيير كلمة المرور  </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    {{-- <a href="{{ route('cms.admin.logout') }}" class="nav-link"> --}}
-                    {{-- <a href="{{ route('view.test') }}" class="nav-link"> --}}
-
-                        <a href="" class="nav-link">
+                    <a href="{{ route('logout') }}" class="nav-link">
                         <i class="fas fa-sign-out-alt ml-2"></i>
                         <p>   تسجيل الخروج  </p>
                     </a>

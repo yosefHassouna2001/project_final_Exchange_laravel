@@ -76,9 +76,18 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $validator = Validator($request->all() ,[
-            'email' => 'required|email',
+            'email'=> 'required',
+            'password' => 'required',
+            'image'=>"required|image|max:2048|mimes:png,jpg,jpeg,pdf",
 
-        ]);
+        ],[
+            'email.required' =>"الرجاء ادخال الايميل  !",
+            'password.required' =>"الرجاء ادخال كلمة السر  !",
+            'image.required' => ' الرجاء اضافة صورة  ' ,
+            'image.image' => ' الرجاء اضافة صورة  ' ,
+        ]
+
+        );
         if(! $validator->fails()){
             $admins = new Admin();
             $admins->email = $request->get('email');
@@ -114,8 +123,7 @@ class AdminController extends Controller
 
                     // Mail::to($admins->email)->send(new AdminEmail($admins->email));
 
-
-                return response()->json(['icon' => 'success' , 'title' => 'Created is Successfully'] , 200);
+                return response()->json(['icon' => $isSaved ? 'success' : 'error' , 'title' => $isSaved ? "تمت عملية الاضافة بنجاح" : "فشلت عملية الاضافة"] , $isSaved ? 200 : 400);
 
             }
         }
@@ -132,8 +140,12 @@ class AdminController extends Controller
      */
     public function show($id)
     {
+        $cities = City::all();
+        $admins = Admin::withTrashed()->findOrFail($id);
 
+        return response()->view('cms.admin.show' , compact('admins' , 'cities' ));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -143,10 +155,10 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
+        $cities = City::all();
         $admins = Admin::findOrFail($id);
         // $roles = Role::where('guard_name' , 'admin')->get();
-        $cities = City::all();
-        $this->authorize('update' , Admin::class);
+        // $this->authorize('update' , Admin::class);
 
         return response()->view('cms.admin.edit' , compact('admins' , 'cities' ));
     }
@@ -161,15 +173,25 @@ class AdminController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator($request->all() , [
-            'password' => 'nullable',
-        ]);
+            'email'=> 'required',
+            'password' => 'required',
+            'image'=>"required|image|max:2048|mimes:png,jpg,jpeg,pdf",
+
+        ],[
+            'email.required' =>"الرجاء ادخال الايميل  !",
+            'password.required' =>"الرجاء ادخال كلمة السر  !",
+            'image.required' => ' الرجاء اضافة صورة  ' ,
+            'image.image' => ' الرجاء اضافة صورة  ' ,
+        ]
+
+        );
 
         if(! $validator->fails()){
             $admins = Admin::findOrFail($id);
             $admins->email = $request->get('email');
-            $isSaved = $admins->save();
+            $isUpdate = $admins->save();
 
-            if($isSaved){
+            if($isUpdate){
                 $users = $admins->user;
                 // $roles = Role::findOrFail($request->get('role_id'));
                 // $admins->assignRole($roles->name);
@@ -195,9 +217,11 @@ class AdminController extends Controller
                 $users->mobile = $request->get('mobile');
                 $users->actor()->associate($admins);
 
-                $isSaved = $users->save();
+                $isUpdate = $users->save();
 
                 return ['redirect'=>route('admins.index')];
+                return response()->json(['icon' => $isUpdate ? 'success' : 'error' , 'title' => $isUpdate ? "تمت عملية التعديل بنجاح" : "فشلت عملية التعديل"] , $isUpdate ? 200 : 400);
+
 
             }
         }
@@ -219,25 +243,24 @@ class AdminController extends Controller
         if($admins->deleted_at == null){
             $admins = Admin::destroy($id);
             // $this->authorize('delete' , Admin::class);
-
-            return response()->json(['icon' => 'success' , 'title' => "Deleted is successfully"] , 200);
+            return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف بنجاح"] , 200);
         }
 
     //  function forceDelete
 
         if($admins->deleted_at !== null){
             $admins->forceDelete();
+            return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف النهائي بنجاح"] , 200);
 
-            return response()->json(['icon' => 'success' , 'title' => "Deleted is Data Base successfully"] , 200);
         }
 
     }
 
-    public function changeStatus(Request $request)
-    {
-        $admins = Admin::with('user')->find($request->id);
-        $admins->user->status = $request->get('unit_toggle_value');
-        $isSave = $admins->save();
-        return response()->json(['icon' => 'success', 'title' => 'تم التعديل  بنجاح'], $isSave ? 200 : 400);
-    }
+    // public function changeStatus(Request $request)
+    // {
+    //     $admins = Admin::with('user')->find($request->id);
+    //     $admins->user->status = $request->get('unit_toggle_value');
+    //     $isSave = $admins->save();
+    //     return response()->json(['icon' => 'success', 'title' => 'تم التعديل  بنجاح'], $isSave ? 200 : 400);
+    // }
 }

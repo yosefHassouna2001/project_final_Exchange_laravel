@@ -27,12 +27,72 @@
         $count = Admin::count('id');
         @endphp
 
-          <div class="col-12 col-sm-6 col-md-4">
+          <div class="col-12 col-sm-6 col-md-4 ">
             <div class="info-box mb-3">
               <a href="{{route('admins.index')}}" class="info-box-icon bg-danger elevation-1"><i class="fa-solid fa-user-gear ml-2"></i></a>
 
               <div class="info-box-content">
-                <a href="{{route('admins.index')}}" class="info-box-text">Number of Admins </a>
+                <a href="{{route('admins.index')}}" class="info-box-text">عدد المشرفين </a>
+                <a href="{{route('admins.index')}}" class="info-box-number">{{$count}}</a>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 ">
+            <div class="info-box mb-3">
+              <a href="{{route('admins.index')}}" class="info-box-icon bg-info elevation-1"><i class="fa-solid fa-user-gear ml-2"></i></a>
+
+              <div class="info-box-content">
+                <a href="{{route('admins.index')}}" class="info-box-text">عدد الدول </a>
+                <a href="{{route('admins.index')}}" class="info-box-number">{{$count}}</a>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <div class="col-12 col-sm-6 col-md-4  ">
+            <div class="info-box mb-3">
+              <a href="{{route('admins.index')}}" class="info-box-icon bg-success elevation-1"><i class="fa-solid fa-user-gear ml-2"></i></a>
+
+              <div class="info-box-content">
+                <a href="{{route('admins.index')}}" class="info-box-text">عدد المدن </a>
+                <a href="{{route('admins.index')}}" class="info-box-number">{{$count}}</a>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <div class="col-12 col-sm-6  col-md-4 ">
+            <div class="info-box mb-3">
+              <a href="{{route('admins.index')}}" class="info-box-icon bg-success elevation-1"><i class="fa-solid fa-user-gear ml-2"></i></a>
+
+              <div class="info-box-content">
+                <a href="{{route('admins.index')}}" class="info-box-text">عدد الفروع </a>
+                <a href="{{route('admins.index')}}" class="info-box-number">{{$count}}</a>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 ">
+            <div class="info-box mb-3">
+              <a href="{{route('admins.index')}}" class="info-box-icon bg-danger elevation-1"><i class="fa-solid fa-user-gear ml-2"></i></a>
+
+              <div class="info-box-content">
+                <a href="{{route('admins.index')}}" class="info-box-text">عدد الاخبار </a>
+                <a href="{{route('admins.index')}}" class="info-box-number">{{$count}}</a>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <div class="col-12 col-sm-6 col-md-4 ">
+            <div class="info-box mb-3">
+              <a href="{{route('admins.index')}}" class="info-box-icon bg-info elevation-1"><i class="fa-solid fa-user-gear ml-2"></i></a>
+
+              <div class="info-box-content">
+                <a href="{{route('admins.index')}}" class="info-box-text">عدد العملات </a>
                 <a href="{{route('admins.index')}}" class="info-box-number">{{$count}}</a>
               </div>
               <!-- /.info-box-content -->

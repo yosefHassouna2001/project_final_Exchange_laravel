@@ -35,22 +35,21 @@ Route::get('/', function () {
 });
 
 Route::prefix('cms/')->middleware('guest:admin')->group(function(){
-    Route::get('{guard}/login' , [UserAuthController::class , 'showLogin'] )->name('view.login');
+    Route::get('{guard}/login' , [UserAuthController::class , 'showLogin'] )->name('login');
     Route::post('admin/login' , [UserAuthController::class , 'login']);
 });
 
 Route::prefix('cms/admin/')->middleware('auth:admin')->group(function(){
-    Route::get('logout' , [UserAuthController::class , 'logout'] )->name('view.test');
+    Route::get('logout' , [UserAuthController::class , 'logout'] )->name('logout');
     Route::get('change_password' , [UserAuthController::class , 'changePassword'])->name('change_password');
     Route::post('update_password' , [UserAuthController::class , 'updatePassword'])->name('update_password');
 
     Route::get('edit-profile-admin' , [UserAuthController::class , 'editProfile'] )->name('edit-profile-admin');
     Route::post('update-profile' , [UserAuthController::class , 'UpdateProfile'] )->name('update-profile');
 
-
-    // Route::get('change-password' , [UserAuthController::class , 'editPassword'] )->name('view.editPassword');
-    // Route::post('update-password' , [UserAuthController::class , 'updatePassword'] )->name('update-password');
-
+    Route::get('change-password' , [UserAuthController::class , 'changePassword'] )->name('change-password');
+    Route::post('update-password' , [UserAuthController::class , 'updatePassword'] )->name('update-password');
+    // cms.admin.edit-password
 });
 
 Route::prefix('cms/admin/')->middleware('auth:admin')->group(function(){
@@ -99,40 +98,30 @@ Route::prefix('cms/admin/')->middleware('auth:admin')->group(function(){
     Route::get('restore-articles/{id}', [ArticleController::class, 'restore'])->name('restore-articles');
 
 
-    // Route::resource('authors' , AuthorController::class);
-    // Route::post('update-authors/{id}' , [AuthorController::class , 'update'])->name('update-authors');
-
-    // Route::resource('categories' , CategoryController::class);
-    // Route::post('update-categories/{id}' , [CategoryController::class , 'update'])->name('update-categories');
-    // Route::post('categories.status' , [CategoryController::class , 'updateStatus'])->name('categories.status');
-
-    // Route::resource('articles' , ArticleController::class);
-    // Route::post('update-articles/{id}' , [ArticleController::class , 'update'])->name('update-articles');
-    // Route::get('/create/articles/{id}', [ArticleController::class, 'createArticle'])->name('createArticle');
-    // Route::get('/index/articles/{id}', [ArticleController::class, 'indexArticle'])->name('indexArticle');
-
-    // Route::resource('sliders' , SliderController::class);
-    // Route::post('update-sliders/{id}' , [SliderController::class , 'update'])->name('update-seeders');
-
-    // Route::resource('contacts' , ContactController::class);
-
-
 });
 
 Route::resource('viewers' , ViewerController::class);
 Route::post('update-viewers/{id}' , [ViewerController::class , 'update'])->name('update-viewers');
 
-// Route::prefix('front/')->group(function(){
+Route::prefix('front/')->group(function(){
 
-//     Route::get('home' , [HomeController::class , 'home'])->name('news.parent');
-//     Route::get('all/{id}' , [HomeController::class , 'all'])->name('news.all');
+    Route::get('home' , [HomeController::class , 'home'])->name('front.home');
+    Route::get('about' , [HomeController::class , 'about'])->name('front.about');
+    Route::get('services' , [HomeController::class , 'services'])->name('front.services');
+    Route::get('currencies' , [HomeController::class , 'currencies'])->name('front.currencies');
+    Route::get('archive' , [HomeController::class , 'archive'])->name('front.archive');
+    Route::get('news' , [HomeController::class , 'news'])->name('front.news');
+    Route::get('question' , [HomeController::class , 'question'])->name('front.question');
+    Route::get('contact' , [HomeController::class , 'contact'])->name('front.contactUs');
 
-//     Route::get('all/{id}' , [HomeController::class , 'all'])->name('news.all');
-//     Route::get('det/{id}' , [HomeController::class , 'det'])->name('news.det');
-//     Route::get('contacts' , [HomeController::class , 'contact'])->name('news.contact');
-//     Route::post('contacts' , [HomeController::class , 'storeContact']);
+    // Route::get('all/{id}' , [HomeController::class , 'all'])->name('news.all');
 
-// });
+
+    // Route::get('det/{id}' , [HomeController::class , 'det'])->name('news.det');
+    // Route::get('contacts' , [HomeController::class , 'contact'])->name('news.contact');
+    // Route::post('contacts' , [HomeController::class , 'storeContact']);
+
+});
 
 // Route::get('email' , function(){
 //     return new AdminEmail();

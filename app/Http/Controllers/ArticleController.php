@@ -72,12 +72,13 @@ class ArticleController extends Controller
             'title' => 'required',
             'short_description' => 'required',
             'full_description' => 'nullable',
-            'image' => 'required',
+            'image'=>"required|image|max:2048|mimes:png,jpg,jpeg,pdf",
 
         ] , [
             'title.required' => 'الرجاء اضافة قيمة للعنوان' ,
             'short_description.required' => ' الرجاء اضافة قيمة للوصف ' ,
             'image.required' => ' الرجاء اضافة صورة  ' ,
+            'image.image' => ' الرجاء اضافة صورة  ' ,
         ]);
 
         if(! $validator->fails()){
@@ -145,14 +146,14 @@ class ArticleController extends Controller
         $validator = Validator($request->all() , [
             'title' => 'required',
             'short_description' => 'required',
-            'image' => 'required',
+            'image'=>"required|image|max:2048|mimes:png,jpg,jpeg,pdf",
 
 
         ] , [
             'title.required' => 'الرجاء اضافة قيمة للعنوان' ,
             'short_description.required' => ' الرجاء اضافة قيمة للوصف ' ,
             'image.required' => ' الرجاء اضافة صورة  ' ,
-
+            'image.image' => ' الرجاء اضافة صورة  ' ,
         ]);
 
         if(! $validator->fails()){

@@ -1,10 +1,10 @@
 @extends('cms.parent')
 
-@section('title' , ' Admin')
+@section('title' , ' المشرفين')
 
-@section('main-title' , 'Index Admin')
+@section('main-title' , 'قائمة المشرفين')
 
-@section('sub-title' , 'index Admin')
+@section('sub-title' , 'قائمة المشرفين')
 
 @section('styles')
 
@@ -20,101 +20,95 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <form action="" method="get" style="margin-bottom: 2%;">
-                    <div class="row">
-                      <div class="input-icon col-md-4 ">
-                        <input type="text" class="form-control" placeholder="Search By email"
-                        name="email" @if(request()->email) value{{ request()->email }}
+                <div class="card-header bg-transparent border-0">
+                    <form action="" method="get" >
+                        <div class="row">
+                            <div class=" col-md-4">
+                                <button class="btn btn-success btn-md" type="submit">فلتر البحث <i class="fa-solid fa-magnifying-glass"></i></button>
+                                <a href="{{route('admins.index')}}"  class="btn btn-danger">إنهاء البحث</a>
 
-                        @endif/>
-                        <span>
-                          <i class="flaticon2-search-1 text-muted"></i>
-                        </span>
-                      </div>
+                            </div>
+                            <div class="input-icon col-md-4">
+                                <input type="text" class="form-control" placeholder="البحث بالاسم"
+                                name="first_name" @if(request()->first_name) value{{ request()->first_name }} @endif/>
+                                <span>
+                                    <i class="flaticon2-search-1 text-muted"></i>
+                                </span>
+                            </div>
+                            <div class="input-icon col-md-4">
+                                <input type="text" class="form-control" placeholder="البحث باستخدام الايميل"
+                                    name='email' @if( request()->email) value={{request()->email}} @endif/>
+                                <span>
+                                    <i class="flaticon2-search-1 text-muted"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class=" col-md-12 ">
+                                <a href="{{route('admins.create')}}"><button type="button" class="btn btn-md btn-info"> إضافة مشرف جديد <i class="fas fa-plus nav-icon"></i></button></a>
 
-
-                      <div class=" col-md-8">
-                          <a href="{{ route('admins.index') }}" class="btn btn-danger btn-md ml-3  float-right"> End Filter</a>
-                        <button class="btn btn-success btn-md ml-3  float-right" type="submit"> Filter</button>
-
-                     </div>
-                    </div>
-                     <div class="row mt-3">
-                      <div class=" col-md-12 ">
-
-                        <a href="{{ route('admins.create') }}" type="submit" class="btn btn-info">Add New Admin</a>
-                        <a  href="{{ route('restoreindex') }}" type="submit" class="btn btn-secondary ml-3 float-right ">Restore Admin <i class="fas  fa-trash-alt"></i></a>
-                        <a  href="{{ route('admins.index') }}" type="submit" class="btn btn-success ml-3 float-right">All Admin</a>
-                      </div>
-                     </div>
-                  </form>
-                <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
-                    </div>
-                  </div>
+                                <a  href="{{ route('restoreindex-admins') }}" type="submit" class="btn btn-secondary ms-3 float-right ">سلة المحذوفات <i class="fas  fa-trash-alt"></i></a>
+                                <a  href="{{ route('admins.index') }}" type="submit" class="btn btn-success ml-3 float-right">قائمة المشرفين <i class="fa-solid fa-user-gear ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body table-responsive p-0">
-                <table class="table table-hover text-nowrap">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Image</th>
-                      <th>Full Name</th>
-                      <th>Email</th>
-                      <th>Mobile</th>
-                      <th>Status</th>
-                      <th>Gender</th>
-                      <th>City</th>
-                      <th>Seeting</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @foreach ($admins as $admin )
-                    {{-- <td><span class="tag tag-success">Approved</span></td> --}}
+                <!-- /.card-header -->
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                    <thead>
+                        <tr>
+                        <th>#</th>
+                        <th>الصورة</th>
+                        <th>الاسم </th>
+                        <th>الايميل</th>
+                        <th>الهاتف</th>
+                        <th>الحالة</th>
+                        <th>الجنس</th>
+                        <th>المدينة</th>
+                        <th>الاعدادات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($admins as $admin )
+                        <tr>
 
-                    <tr>
                         <td>{{$admin->id}}</td>
-
                         <td>
-                          <img class="img-circle img-bordered-sm" src="{{asset('storage/images/admin/'.$admin->user->image ?? "")}}" width="60" height="60" alt="User Image">
-                       </td>
+                            <img class="img-circle img-bordered-sm" src="{{asset('storage/images/admin/'.$admin->user->image ?? "")}}" width="60" height="60" alt="User Image">
+                        </td>
                         <td>{{$admin->user->first_name .' '. $admin->user->last_name  }}</td>
                         <td>{{$admin->email}}</td>
                         <td>{{$admin->user->mobile ?? ""}}</td>
                         <td>{{$admin->user->status ?? ""}}</td>
                         <td>{{$admin->user->gender ?? ""}}</td>
                         <td><span class="badge bg-info">({{$admin->user->city->name ?? ""}})</td>
-                        <td >
-                            <div class="flex-nowrap d-flex " style="gap: 5px">
-                                <a href="{{ route('admins.edit' , $admin->id) }}" type="button"
+                        <td class="text-center">
+                            <div class="flex-nowrap d-flexd text-center " style="gap: 5px">
+                                <a href="{{route('admins.show',$admin->id)}}" type="button"
+                                    class="btn btn-success mb-md-3 " title="Show">
+                                    <i class="fa-regular fa-eye"></i>
+                                </a>
+                                {{-- <a href="{{ route('admins.edit' , $admin->id) }}" type="button"
                                     @if($admin->deleted_at !== null)
                                     hidden
                                     @endif
                                     class="btn btn-info mb-md-3   ">
                                 <i class="fas fa-edit"></i>
-                                </a>
-                                <a type="button" onclick="performDestroy({{ $admin->id }} , this)" class="btn btn-danger mb-md-3">
-                                <i class="fas fa-trash-alt"></i>
-                                </a>
-                                <a href="{{ route('restore' , $admin->id) }}" type="button"
+                                </a> --}}
+                                <a href="{{ route('restore-admins' , $admin->id) }}" type="button"
                                     @if($admin->deleted_at == null)
                                     hidden
                                     @endif
                                     class="btn btn-info mb-md-3 ">
                                     &#x21BA;
                                 </a>
+                                <a href="#" type="button" onclick="performDestroy({{ $admin->id }} , this)" class="btn btn-danger mb-md-3">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
                             </div>
                         </td>
-
-                        <td></td>
                       </tr>
                     @endforeach
 

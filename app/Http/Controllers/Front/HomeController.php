@@ -7,39 +7,69 @@ use App\Models\Category;
 use App\Models\Slider;
 use App\Models\Contact;
 use App\Models\Article;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 
 class HomeController extends Controller
 {
     public function home(){
-        $categories = Category::where('status' , 'active')->take(3)->get();
-        $sliders = Slider::take(3)->get();
-        $articles = Article::orderBy('created_at' , 'desc')->take(3)->get();
-        return view('news.index' , compact('categories' , 'sliders' , 'articles'));
+        // $services = Service::take(6)->get();
+        // $currencies = Currency::take(3)->get();
+        // return view('front.home' , compact('services' , 'currencies'));
+        return view('front.home' );
     }
 
-    public function all($id){
-        $categories= Category::findOrFail($id);
-        $articles = Article::where('category_id' , $id)->orderBy('updated_at' , 'desc')->paginate('4');
-        return response()->view('news.all-news' , compact('categories' , 'articles'));
+    public function about(){
+        return view('front.about' );
     }
-    // public function all($id){
 
-    //     $categories = Category::findOrFail($id);
-    //     $articles = Article::where('category_id' , $id)->orderBy('created_at' , 'desc')->paginate(4);
-    //     return view('news.all-news' , compact('categories' , 'articles'));
-    // }
+    public function services(){
+        // $services = Service::orderBy('created_at' , 'desc');
+        // return view('front.services' ,compact('services') );
 
-    public function det($id){
-        $articles = Article::find($id);
-        return response()->view('news.newsdetailes' , compact('articles'));
+        return view('front.services' );
 
+
+    }
+    public function currencies(){
+        // $currencies = Currency::orderBy('created_at' , 'desc')->paginate('4');
+        // return view('front.currencies' ,compact('currencies') );
+
+        return view('front.currencies'  );
+
+    }
+    public function archive(){
+        // $currencies = Currency::all();
+        // $archives = Archive::orderBy('created_at' , 'desc')->paginate('4');
+        // return view('front.archive' ,compact('archives') );
+
+        return view('front.archive'  );
+
+    }
+    public function news(){
+        $articles = Article::orderBy('created_at' , 'desc')->paginate('4');
+        return view('front.news' ,compact('articles') );
+    }
+
+    public function question(){
+        // $questions = Question::orderBy('created_at' , 'desc')->paginate('4');
+        // return view('front.question' ,compact('questions') );
+
+        return view('front.questions' );
     }
 
     public function contact(){
-        return response()->view('news.contact');
+        // $branchs = Branch::all();
+        // return view('front.contactUs' ,compact('branchs') );
+
+        return response()->view('front.contactUs');
     }
+
+
+
+    // قديم
+
 
     public function storeContact(Request $request){
 
@@ -51,12 +81,12 @@ class HomeController extends Controller
             $contacts = new Contact();
             $contacts->name = $request->get('name');
             $contacts->email = $request->get('email');
-            $contacts->mobile = $request->get('mobile');
+            $contacts->title = $request->get('title');
             $contacts->message = $request->get('message');
 
             $isSaved = $contacts->save();
 
-            return response()->json(['icon' => $isSaved ? "success" : 'error' , 'title' => $isSaved ? "Created is Successfully" : 'Contact error'] , $isSaved ? 200 : 400);
+            return response()->json(['icon' => $isSaved ? "success" : 'error' , 'title' => $isSaved ? "تم ارسال الرسالة بنجاح" : 'فشلت عملبة الارسال '] , $isSaved ? 200 : 400);
 
         }
         else{

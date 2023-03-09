@@ -1,0 +1,496 @@
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
+/* @import url("https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap"); */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;400;500;600;700;800;900;1000&family=Open+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root{
+    --primaryColor : #24126A;
+    --hoverLink : #df990c;
+    --whiteColor : #fff;
+    --blackColor : #333;
+    --bodyColor :#f9f9fa;
+}
+
+
+
+
+
+  a {
+    color: var(--hoverLink);
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: var(--primaryColor);
+    text-decoration: none;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Poppins", "Cairo", sans-serif !important;
+
+  }
+
+  /*--------------------------------------------------------------
+  # Back to top button
+  --------------------------------------------------------------*/
+  .back-to-top {
+    position: fixed;
+    visibility: hidden;
+    opacity: 0;
+    right: 15px;
+    bottom: 15px;
+    z-index: 996242;
+    background: var(--primaryColor);
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    transition: all 0.4s;
+  }
+  .back-to-top i {
+    font-size: 24px;
+    color: #fff;
+  }
+  .back-to-top:hover {
+    background: var(--hoverLink);
+    color: #fff;
+  }
+  .back-to-top.active {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  /*--------------------------------------------------------------
+  # Header
+  --------------------------------------------------------------*/
+  #header {
+    background: var(--primaryColor);
+    transition: all 0.5s;
+    z-index: 997;
+    padding: 10px 0;
+  }
+  #header .dropdown{
+    color: var(--whiteColor) ;
+  }
+  #header .logo img{
+    max-height: 70px !important;
+  }
+  
+  @media (max-width: 991px) {
+    #header {
+      padding: 12px 0;
+    }
+  }
+  
+  
+  /*--------------------------------------------------------------
+  # Navigation Menu
+  --------------------------------------------------------------*/
+  /**
+  * Desktop Navigation 
+  */
+  .navbar {
+    padding: 0;
+  }
+  .navbar .navagation {
+animation-delay: 1.5s;  }
+  .navbar ul {
+    display: flex;
+    align-items: center; 
+  }
+  
+  .navbar a, .navbar a:focus {
+    font-family: "Raleway", "Cairo", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--whiteColor);
+    white-space: nowrap;
+    transition: 0.3s;
+    margin: 0 3px;
+  }
+  @media (max-width: 992px) {
+   .navbar a, .navbar a:focus {
+   
+    color: var(--blackColor);
+    
+  }
+  .navbar .getstarted, .navbar .getstarted:focus {
+    
+    color: var(--blackColor) !important;
+  }
+
+  #header .dropdown{
+    color: var(--blackColor) ;
+  }
+
+  }
+  .navbar-toggler {
+    border: none !important;
+  }
+  
+  .navbar a i, .navbar a:focus i {
+    font-size: 12px;
+    margin-left: 5px;
+  }
+  .navbar a:hover, .navbar .active, .navbar .active:focus, .navbar li:hover > a {
+    color: var(--hoverLink) !important;
+  }
+  .navbar .getstarted, .navbar .getstarted:focus {
+    padding: 10px 25px;
+    margin-left: 30px;
+    border-radius: 4px;
+    line-height: 1;
+    color: var(--whiteColor);
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid #cdd1d9;
+  }
+  .navbar .login, .navbar .login:focus {
+    background-color: var(--hoverLink);
+    color: var(--whiteColor);
+    border-color: var(--hoverLink);
+  }
+
+  .navbar .getstarted:hover, .navbar .getstarted:focus:hover {
+    background: transparent;
+    color: var(--hoverLink) !important;
+    border-color: var(--hoverLink);
+    /* background: var(--hoverLink);
+    color: #fff !important;
+    border-color: var(--hoverLink); */
+  }  
+  
+  .navbar .login:hover, .navbar .login:focus:hover {
+    background-color: transparent !important;
+    color: var(--hoverLink) !important;
+    border-color: var(--hoverLink);
+  }
+  .activelog {
+    background: var(--hoverLink);
+    color: #fff;
+    border-color: var(--hoverLink) !important;
+  }
+  .navbar .dropdown ul {
+    display: block;
+    position: absolute;
+    left: 14px;
+    top: calc(100% + 30px);
+    margin: 0;
+    padding: 10px 0;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    background: var(--whiteColor);
+    transition: 0.3s;
+    border-radius: 4px;
+
+  }
+  .navbar .dropdown ul li {
+    min-width: 200px;
+  }
+  .navbar .dropdown ul a {
+    padding: 10px 20px;
+    font-size: 15px;
+    text-transform: none;
+    font-weight: 600;
+    color: var(--blackColor);
+
+  }
+ 
+  .navbar .dropdown ul a:hover, .navbar .dropdown ul .active:hover, .navbar .dropdown ul li:hover > a {
+    color: var(--hoverLink);
+  }
+  .navbar .dropdown:hover > ul {
+    opacity: 1;
+    top: 100%;
+    visibility: visible;
+  }
+  .navbar .dropdown .dropdown ul {
+    top: 0;
+    left: calc(100% - 30px);
+    visibility: hidden;
+  }
+  .navbar .dropdown .dropdown:hover > ul {
+    opacity: 1;
+    top: 0;
+    left: 100%;
+    visibility: visible;
+  }
+  @media (max-width: 1366px) {
+    .navbar .dropdown .dropdown ul {
+      left: -90%;
+    }
+    .navbar .dropdown .dropdown:hover > ul {
+      left: -100%;
+    }
+  }
+  
+  /**
+  * Mobile Navigation 
+  */
+ 
+ 
+  
+  /*--------------------------------------------------------------
+  # Hero Section
+  --------------------------------------------------------------*/
+ 
+#hero h2{
+  margin: 20px 0 30px 0;
+}
+.widget-body table{
+  background-color: #f0f0f0;
+  border-radius: 15px;
+  height: 200px;
+  font-family: "Poppins", "Cairo", sans-serif !important;
+  animation-delay: 1s;
+}
+.widget-body table tr{
+  line-height: 40px ;
+}
+
+
+  
+  /*--------------------------------------------------------------
+  # Sections General
+  --------------------------------------------------------------*/
+  section {
+    padding: 60px 0;
+    overflow: hidden;
+  }
+  
+  .section-title {
+    text-align: center;
+    padding: 30px 0;
+    position: relative;
+    margin-bottom: 80px;
+    padding: 0 300px;
+    z-index: 5;
+  }
+  .section-title h2 {
+    font-size: 32px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 0;
+    color: #5f687b;
+    position: relative;
+    z-index: 2;
+    line-height: 42px;
+
+  }
+  .section-title span {
+    position: absolute;
+    top: 5px;
+    color: #f0f1f3;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    font-weight: 700;
+    font-size: 70px;
+    text-transform: uppercase;
+    line-height: 0;
+  }
+  .section-title p {
+    margin-bottom: 0;
+    position: relative;
+    z-index: 2;
+    font-size: 16px;
+    line-height: 28px;
+  }
+  @media (max-width: 575px) {
+    .section-title h2 {
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
+    .section-title span {
+      font-size: 38px;
+    }
+  }
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .section-title {
+    padding: 0px 200px;
+    margin-bottom: 70px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .section-title {
+    padding: 0px 20px;
+    margin-bottom: 50px;
+  }
+  .section-title h2 {
+    font-size: 24px;
+    line-height: 32px;
+    margin-bottom: 20px;
+  }
+  .section-title p {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    padding: 0px 10px;
+    margin-bottom: 40px;
+  }
+  .section-title h2 {
+    font-size: 24px;
+    line-height: 30px;
+    margin-bottom: 18px;
+  }
+  .section-title p {
+    font-size: 15px;
+  }
+}
+
+  /*--------------------------------------------------------------
+  # Counts
+  --------------------------------------------------------------*/
+  .counts {
+    padding-top: 0;
+  }
+  .counts .counters span {
+    font-size: 48px;
+    display: block;
+    color: var(--primaryColor);
+    font-weight: 700;
+  }
+  .counts .counters p {
+    padding: 0;
+    margin: 0 0 20px 0;
+    font-family: "Raleway", "Cairo", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  /*--------------------------------------------------------------
+  # Services
+  --------------------------------------------------------------*/
+  .services{
+    background-color:var(--bodyColor);
+  }
+  .services .icon-box {
+    text-align: center;
+    border: 1px solid #fff;
+    padding: 80px 20px;
+    transition: all ease-in-out 0.3s;
+    background: var(--whiteColor);
+    min-height: 300px;
+    border-radius: 20px;
+    padding: 40px 50px;
+
+  }
+  .services .icon-box:hover {
+    transform: scale(1.05);
+}
+  .services .icon-box .icon {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    transition: ease-in-out 0.3s;
+  }
+  .services .icon-box .icon i {
+    color: var(--hoverLink);
+    font-size: 36px;
+    transition: 0.3s;
+  }
+  .services .icon-box h4 {
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 24px;
+  }
+  .services .icon-box h4 a {
+    color: #5f687b;
+    transition: ease-in-out 0.3s;
+  }
+  .services .icon-box p {
+    line-height: 24px;
+    font-size: 14px;
+    margin-bottom: 0;
+  }
+  .services .icon-box:hover {
+    border-color: #eaecef;
+  }
+  .services .icon-box:hover h4 a {
+    color: var(--primaryColor);
+  }
+  .services .btn-service {
+    color: var(--primaryColor);
+    background-color: var(--hoverLink);
+  }
+  
+  /*--------------------------------------------------------------
+  # Footer
+  --------------------------------------------------------------*/
+  #footer {
+    background-color: #f3f4f6;
+    color: #5f687b;
+    font-size: 14px;
+    position: relative;
+  }
+  #footer .footer-top {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 80px 0;
+  }
+  #footer .footer-top h3 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #5f687b;
+    position: relative;
+    font-family: "Poppins", "Cairo", sans-serif;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+ 
+
+  #footer .footer-top .social-links {
+    margin-top: 30px;
+  }
+  #footer .footer-top .social-links a {
+    font-size: 18px;
+    display: inline-block;
+    background: #eaecef;
+    color: #5f687b;
+    line-height: 1;
+    padding: 8px 0;
+    margin-right: 4px;
+    border-radius: 4px;
+    text-align: center;
+    width: 36px;
+    height: 36px;
+    transition: 0.3s;
+  }
+  #footer .footer-top .social-links a:hover {
+    background: var(--primaryColor);
+    color: #fff;
+    text-decoration: none;
+  }
+  #footer .footer-bottom {
+    border-top: 1px solid #d9dce2;
+    z-index: 2;
+    position: relative;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  #footer .copyright {
+    float: left;
+  }
+  #footer .credits {
+    float: right;
+    font-size: 13px;
+  }
+  @media (max-width: 992px) {
+    #footer .copyright, #footer .credits {
+      float: none;
+      -moz-text-align-last: center;
+      text-align-last: center;
+    }
+  }
