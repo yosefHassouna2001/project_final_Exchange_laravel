@@ -56,28 +56,28 @@
                         </div>
                     </div>
                     <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch wow" data-wow-delay=".2s">
-                        <form action="https://tftwallet.com/ar/contact" method="post" role="form" class="php-email-form">
+                        <form  role="form" class="php-email-form">
                             <input type="hidden" name="_token" value="ZvaHbGTcT9Zx2kX6Sbp72mcjRrLhofPj5trkJYYC">                            <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="name">إسمك</label>
                                     <input type="text" name="name" class="form-control" id="name" required="">
                                 </div>
                                 <div class="form-group col-md-6 mt-3 mt-md-0">
-                                    <label for="name">إيميلك</label>
+                                    <label for="email">إيميلك</label>
                                     <input type="email" class="form-control" name="email" id="email" required="">
                                 </div>
                             </div>
                             <div class="form-group mt-3">
-                                <label for="name">الموضوع</label>
-                                <input type="text" class="form-control" name="subject" id="subject" required="">
+                                <label for="title">الموضوع</label>
+                                <input type="text" class="form-control" name="title" id="title" required="">
                             </div>
                             <div class="form-group mt-3">
-                                <label for="name">الرسالة</label>
-                                <textarea class="form-control" name="message" rows="10" required=""></textarea>
+                                <label for="message">الرسالة</label>
+                                <textarea class="form-control"id="message" name="message" rows="10" required=""></textarea>
                             </div>
 
                             <div class="text-center mt-4">
-                                <button type="submit">إرسال الرسالة</button>
+                                <button type="submit" onclick="performStore()">إرسال الرسالة</button>
                             </div>
                         </form>
                     </div>
@@ -90,6 +90,20 @@
 @endsection
 
 @section('scripts')
+
+<script>
+    function performStore(){
+
+        let formData = new FormData();
+        formData.append('name',document.getElementById('name').value);
+        formData.append('email',document.getElementById('email').value);
+        formData.append('title',document.getElementById('title').value);
+        formData.append('message',document.getElementById('message').value);
+
+        store('/front/contacts' , formData);
+        }
+
+    </script>
 
 @endsection
 

@@ -1,10 +1,10 @@
 @extends('cms.parent')
 
-@section('title' , ' الدولة')
+@section('title' , ' العملة')
 
-@section('main-title' , 'قائمة الدول')
+@section('main-title' , 'قائمة العملات')
 
-@section('sub-title' , 'قائمة الدول')
+@section('sub-title' , 'قائمة العملات')
 
 @section('styles')
 
@@ -25,9 +25,9 @@
                     <div class="card-header bg-transparent border-0">
                         <form action="" method="get" >
                             <div class="row">
-                                <div class=" col-md-4">
+                                <div class=" col-md-8">
                                     <button class="btn btn-success btn-md mb-1 " type="submit">فلتر البحث <i class="fa-solid fa-magnifying-glass"></i></button>
-                                    <a href="{{route('countries.index')}}"  class="btn btn-danger mb-1">إنهاء البحث</a>
+                                    <a href="{{route('currencies.index')}}"  class="btn btn-danger mb-1">إنهاء البحث</a>
 
                                 </div>
                                 <div class="input-icon col-md-4">
@@ -37,23 +37,17 @@
                                             <i class="flaticon2-search-1 text-muted"></i>
                                         </span>
                                 </div>
-                                <div class="input-icon col-md-4">
-                                    <input type="number" class="form-control" placeholder="البحث برقم الكود"
-                                        name='code' @if( request()->code) value={{request()->code}} @endif/>
-                                    <span>
-                                        <i class="flaticon2-search-1 text-muted"></i>
-                                    </span>
-                                </div>
+
 
 
 
                             </div>
                             <div class="row mt-3">
                                 <div class=" col-md-12 ">
-                                    <a href="{{route('countries.create')}}"><button type="button" class="btn btn-md btn-info"> إضافة دولة جديدة <i class="fas fa-plus nav-icon"></i></button></a>
+                                    <a href="{{route('currencies.create')}}"><button type="button" class="btn btn-md btn-info"> إضافة عملة جديدة <i class="fas fa-plus nav-icon"></i></button></a>
 
-                                    <a  href="{{ route('restoreindex-countries') }}" type="submit" class="btn btn-secondary ms-3 float-right ">سلة المحذوفات <i class="fas  fa-trash-alt"></i></a>
-                                    <a  href="{{ route('countries.index') }}" type="submit" class="btn btn-success ml-3 float-right ">قائمة الدول <i class="fa-solid fa-tree-city ml-2"></i>
+                                    <a  href="{{ route('restoreindex-currencies') }}" type="submit" class="btn btn-secondary ms-3 float-right ">سلة المحذوفات <i class="fas  fa-trash-alt"></i></a>
+                                    <a  href="{{ route('currencies.index') }}" type="submit" class="btn btn-success ml-3 float-right ">قائمة العملات <i class="fa-solid fa-tree-city ml-2"></i>
                                     </a>
                                 </div>
                             </div>
@@ -69,41 +63,40 @@
 
                         <tr>
                         <th>#</th>
-                        <th>اسم الدولة</th>
-                        <th>الكود</th>
-                        <th>عدد المدن</th>
+                        <th>اسم العملة</th>
+                        <th>الصورة</th>
                         <th class="text-center">الاعدادات</th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach ($countries as $country )
+                    @foreach ($currencies as $currency )
                     <tr>
-                        <td>{{$country->id}}</td>
-                        <td>{{ $country->name }}</td>
-                        <td>{{$country->code}}</td>
-                        <td><span class="badge bg-info p-1">({{$country->cities_count}}) مدن</td>
-
+                        <td>{{$currency->id}}</td>
+                        <td>{{ $currency->name }}</td>
+                        <td>
+                            <img class="img-circle img-bordered-sm" src="{{asset('storage/images/currency/'.$currency->image ?? "")}}" width="60" height="60" alt="User Image">
+                        </td>
                         <td class="text-center">
                             <div class="flex-nowrap d-flexd text-center " style="gap: 5px">
-                                <a href="{{route('countries.show',$country->id)}}" type="button"
+                                <a href="{{route('currencies.show',$currency->id)}}" type="button"
                                     class="btn btn-success mb-md-3 " title="Show">
                                     <i class="fa-regular fa-eye"></i>
                                 </a>
-                                <a href="{{ route('countries.edit' , $country->id) }}" type="button"
-                                    @if($country->deleted_at !== null)
+                                <a href="{{ route('currencies.edit' , $currency->id) }}" type="button"
+                                    @if($currency->deleted_at !== null)
                                     hidden
                                     @endif
                                     class="btn btn-info mb-md-3   ">
                                 <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="{{ route('restore-countries' , $country->id) }}" type="button"
-                                    @if($country->deleted_at == null)
+                                <a href="{{ route('restore-currencies' , $currency->id) }}" type="button"
+                                    @if($currency->deleted_at == null)
                                     hidden
                                     @endif
                                     class="btn btn-info mb-md-3 ">
                                     &#x21BA;
                                 </a>
-                                <a href="#" type="button" onclick="performDestroy({{ $country->id }} , this)" class="btn btn-danger mb-md-3">
+                                <a href="#" type="button" onclick="performDestroy({{ $currency->id }} , this)" class="btn btn-danger mb-md-3">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </div>
@@ -116,7 +109,7 @@
                 <!-- /.card-body -->
                 </div>
             <!-- /.card -->
-            {{ $countries->links()}}
+            {{ $currencies->links()}}
             </div>
         </div>
 
@@ -131,7 +124,7 @@
 @section('scripts')
     <script>
     function performDestroy(id , referance){
-        let url = '/cms/admin/countries/'+id;
+        let url = '/cms/admin/currencies/'+id;
         confirmDestroy(url , referance );
     }
     </script>

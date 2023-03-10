@@ -18,7 +18,7 @@
                         <tbody class="d-grid d-md-block align-items-center">
 
                         <tr class="fs-5">
-                            <th class="d-block text-sm-center mb-sm-1 ">اختر النوع
+                            <th class="d-block text-sm-center mb-sm-1 mb-sm-1 mt-3 mt-sm-3">اختر النوع
                             </th>
                             <th>
                                 <div class="form-group d-flex me-3 bg-dangerp mt-3 ">
@@ -34,18 +34,19 @@
                             <th>
                                 <div class="d-flex align-items-center mt-3 justify-content-between me-3">
                                     <span class="mx-3 fw-lighter">من</span>
-                                    <select class="form-select form-select-sm " style="min-width: fit-content;" aria-label=".form-select-sm example">
-                                        <option selected>الدولار </option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+
+                                    <select class="form-select form-select-sm " id="country_id" name="country_id" style="min-width: fit-content;" aria-label=".form-select-sm example">
+                                        @foreach($prices as $price)
+                                            <option value="{{ $price->currency->id }}">{{ $price->currency->name }}</option>
+                                        @endforeach
                                     </select>
+
+
                                     <span class="mx-3 fw-lighter">الى</span>
                                     <select class="form-select form-select-sm" style="min-width: fit-content;" aria-label=".form-select-sm example">
-                                        <option selected>الشيكل </option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        @foreach($prices as $price)
+                                            <option value="{{ $price->currency->id }}">{{ $price->currency->name }}</option>
+                                        @endforeach
                                     </select>
 
                                 </div>
@@ -59,6 +60,8 @@
                                     <div class=" d-flex align-items-center ">
                                         <span class="mx-2 fw-lighter text-uppercase " >USD</span>
                                         <img src="assets/images/flag/flag-1.jpg " class=" ms-1 " alt="">
+                                        {{-- <img src="{{asset('storage/images/currency/' . $price->currency->image)}}"
+                                        class=" ms-1" alt=""></span> --}}
 
                                         <input type="text" inputmode="numeric"  style="min-width: 60px;" maxlength="7" class="currency-send form-control p-1" value="1" placeholder="0">
                                     </div>
@@ -103,38 +106,28 @@
                             </tr>
                             </thead>
                             <tbody>
+
+                        @foreach($prices as $price)
+
                             <tr>
-                                <th class=" fs-5"><img src="assets/images/flag/flag-1.jpg" class=" ms-3" alt=""><span>الدولار</span></th>
+                                <th class=" fs-5">
+                                    <img src="{{asset('storage/images/currency/' . $price->currency->image)}}"
+                                    class=" ms-3" alt=""><span>{{ $price->currency->name }}</span>
+                                </th>
                                 <td>
-                                    3.52
+                                    {{ $price->buy_price }}
                                 </td>
-                                <td>3.53</td>
-                            </tr>
-                            <tr>
-                                <th class=" fs-5"><img src="assets/images/flag/flag-1.jpg" class=" ms-3" alt=""><span>الدولار</span></th>
                                 <td>
-                                    3.52
+                                    {{ $price->sale_price }}
                                 </td>
-                                <td>3.53</td>
                             </tr>
-                            <tr>
-                                <th class=" fs-5"><img src="assets/images/flag/flag-1.jpg" class=" ms-3" alt=""><span>الدولار</span></th>
-                                <td>
-                                    3.52
-                                </td>
-                                <td>3.53</td>
-                            </tr>
-                            <tr>
-                                <th class=" fs-5"><img src="assets/images/flag/flag-1.jpg" class=" ms-3" alt=""><span>الدولار</span></th>
-                                <td>
-                                    3.52
-                                </td>
-                                <td>3.53</td>
-                            </tr>
+                        @endforeach
+
                             <tr class="fw-bold  ">
                                 <td class="fs-5"><i class="fa-solid fa-arrows-rotate"></i> آخر تحديث : </td>
                                 <td>
-                                    <span class="date"> 2022-11-01 </span> الساعة <span class="time"> 11:53 </span>
+                                    {{-- <span class="date"> 2022-11-01 </span> الساعة <span class="time"> 11:53 </span> --}}
+                                    <span class="date">{{ $price->created_at }} </span>
                                 </td>
                                 <td>
                                     <a href="archef.html" class="btn btn-primary btn-sm mx-auto me-4 text-white">الأرشيف</a>
@@ -143,17 +136,11 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer clearfix d-flex justify-content-center">
-                      <ul class="pagination pagination-sm m-0  ">
-                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                      </ul>
-                    </div>
+
                   </div>
+                </div>
+                <div class="paginate d-flex justify-content-center">
+                    {{$prices->links()}}
                 </div>
             </div>
 

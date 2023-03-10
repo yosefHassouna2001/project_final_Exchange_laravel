@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-// use Spatie\Permission\Models\Role;
 
 class UserAuthController extends Controller
 {
@@ -29,7 +28,7 @@ class UserAuthController extends Controller
             'password.required' =>"الرجاء ادخال كلمة السر  !",
             'password.string' =>"الرجاء ادخال كلمة السر  !",
         ]
-    );
+        );
         $credintials =[
             'email' => $request->get('email'),
             'password' => $request->get('password'),
@@ -57,118 +56,6 @@ class UserAuthController extends Controller
 
 
     }
-
-    public function editProfile1(Request $request){
-        if (Auth::guard('admin')->id()){
-            $admins = Admin::findOrFail(Auth::guard('admin')->id());
-            $cities = City::all();
-            return response()->view('cms.auth.edit' ,compact('admins' , 'cities'));
-
-        }
-        elseif (Auth::guard('author')->id()){
-            $authors = Author::findOrFail(Auth::guard('author')->id());
-            return response()->view('cms.auth.edit' , compact('authors'));
-        }
-
-    }
-
-    public function UpdateProfile1(Request $request){
-
-        if (Auth::guard('admin')->id()){
-
-            $validator = Validator($request->all() , [
-                'password' => 'nullable',
-            ]);
-
-            if(! $validator->fails()){
-                $admins = Admin::findOrFail(Auth::guard('admin')->id());
-
-                $admins->email = $request->get('email');
-                $isSaved = $admins->save();
-
-                if($isSaved){
-                    $users = $admins->user;
-                    $roles = Role::findOrFail($request->get('role_id'));
-                    $admins->assignRole($roles->name);
-
-                    if (request()->hasFile('image')) {
-
-                        $image = $request->file('image');
-
-                        $imageName = time() . 'image.' . $image->getClientOriginalExtension();
-
-                        $image->move('storage/images/admin', $imageName);
-
-                        $users->image = $imageName;
-                        }
-
-                    $users->first_name = $request->get('first_name');
-                    $users->last_name = $request->get('last_name');
-                    $users->status = $request->get('status');
-                    $users->gender = $request->get('gender');
-                    $users->date = $request->get('date');
-                    $users->city_id = $request->get('city_id');
-                    $users->address = $request->get('address');
-                    $users->mobile = $request->get('mobile');
-                    $users->actor()->associate($admins);
-
-                    $isSaved = $users->save();
-
-                    return ['redirect'=>route('admins.index')];
-
-                }
-            }
-            else{
-                return response()->json(['icon' => 'error' , 'title' => $validator->getMessageBag()->first()] ,400);
-            }
-
-        }
-
-        elseif (Auth::guard('author')->id()){
-            $validator = Validator($request->all() , [
-                'password' => 'nullable',
-            ]);
-
-            if(! $validator->fails()){
-                $authors = Author::findOrFail(Auth::guard('author')->id());
-                $authors->email = $request->get('email');
-                $isSaved = $authors->save();
-                if($isSaved){
-                    $users = $authors->user;
-
-                    if (request()->hasFile('image')) {
-
-                        $image = $request->file('image');
-
-                        $imageName = time() . 'image.' . $image->getClientOriginalExtension();
-
-                        $image->move('storage/images/Author', $imageName);
-
-                        $users->image = $imageName;
-                        }
-
-                    $users->first_name = $request->get('first_name');
-                    $users->last_name = $request->get('last_name');
-                    $users->status = $request->get('status');
-                    $users->gender = $request->get('gender');
-                    $users->date = $request->get('date');
-                    $users->city_id = $request->get('city_id');
-                    $users->address = $request->get('address');
-                    $users->mobile = $request->get('mobile');
-                    $users->actor()->associate($authors);
-
-                    $isSaved = $users->save();
-
-                    return ['redirect'=>route('authors.index')];
-
-                }
-            }
-            else{
-                return response()->json(['icon' => 'error' , 'title' => $validator->getMessageBag()->first()] ,400);
-            }
-        }
-    }
-
 
     public function changePassword(Request $request){
         return response()->view('cms.admin.changePassword');

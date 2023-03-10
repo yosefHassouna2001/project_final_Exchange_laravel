@@ -59,10 +59,10 @@ class AdminController extends Controller
     public function create()
     {
         $cities = City::all();
-        // $roles = Role::where('guard_name' , 'admin')->get();
+        $roles = Role::where('guard_name' , 'admin')->get();
         // $this->authorize('create' , Admin::class);
 
-        return response()->view('cms.admin.create' , compact('cities' ));
+        return response()->view('cms.admin.create' , compact('cities' , 'roles' ));
     }
 
     /**
@@ -76,12 +76,23 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $validator = Validator($request->all() ,[
+
+            'first_name'=> 'required',
+            'last_name'=> 'required',
+            'status'=> 'required',
+            'gender'=> 'required',
+            'date'=> 'required',
+            'city_id'=> 'required',
+            'address'=> 'required',
+            'address'=> 'required',
+            'mobile'=> 'required',
             'email'=> 'required',
             'password' => 'required',
             'image'=>"required|image|max:2048|mimes:png,jpg,jpeg,pdf",
 
         ],[
             'email.required' =>"الرجاء ادخال الايميل  !",
+            'email.unique' =>"الايميل موجود مسبقا ",
             'password.required' =>"الرجاء ادخال كلمة السر  !",
             'image.required' => ' الرجاء اضافة صورة  ' ,
             'image.image' => ' الرجاء اضافة صورة  ' ,
@@ -95,8 +106,8 @@ class AdminController extends Controller
             $isSaved = $admins->save();
             if($isSaved){
                 $users = new User();
-                //  $roles = Role::findOrFail($request->get('role_id'));
-                //  $admins->assignRole($roles->name);
+                 $roles = Role::findOrFail($request->get('role_id'));
+                 $admins->assignRole($roles->name);
 
                 if (request()->hasFile('image')) {
 
@@ -157,10 +168,10 @@ class AdminController extends Controller
     {
         $cities = City::all();
         $admins = Admin::findOrFail($id);
-        // $roles = Role::where('guard_name' , 'admin')->get();
+        $roles = Role::where('guard_name' , 'admin')->get();
         // $this->authorize('update' , Admin::class);
 
-        return response()->view('cms.admin.edit' , compact('admins' , 'cities' ));
+        return response()->view('cms.admin.edit' , compact('admins' , 'cities' , 'roles'));
     }
 
     /**
@@ -173,7 +184,15 @@ class AdminController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator($request->all() , [
-            'email'=> 'required',
+            'first_name'=> 'required',
+            'last_name'=> 'required',
+            'status'=> 'required',
+            'gender'=> 'required',
+            'date'=> 'required',
+            'city_id'=> 'required',
+            'address'=> 'required',
+            'address'=> 'required',
+            'mobile'=> 'required',
             'password' => 'required',
             'image'=>"required|image|max:2048|mimes:png,jpg,jpeg,pdf",
 
@@ -193,8 +212,8 @@ class AdminController extends Controller
 
             if($isUpdate){
                 $users = $admins->user;
-                // $roles = Role::findOrFail($request->get('role_id'));
-                // $admins->assignRole($roles->name);
+                $roles = Role::findOrFail($request->get('role_id'));
+                $admins->assignRole($roles->name);
 
                 if (request()->hasFile('image')) {
 

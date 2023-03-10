@@ -28,16 +28,6 @@
 
                 <div class="card-body">
 
-                {{-- <div class="row">
-                    <div class="form-group col-md-6">
-                    <label>Roles</label>
-                    <select class="form-control select2" id="role_id" name="role_id" style="width: 100%;">
-                    @foreach($roles as $role)
-                        <option value="{{ $role->id }}">{{ $role->name }}</option>
-                    @endforeach
-                    </select>
-                    </div>
-                </div> --}}
 
                 <div class="row">
                     <div class="form-group col-md-6">
@@ -113,6 +103,15 @@
                         <label for="image">اختر صورة  </label>
                         <input type="file" class="form-control" id="image" name="image" placeholder="Enter Date of Admin">
                     </div>
+
+                    <div class="form-group col-md-6">
+                    <label>الدور</label>
+                    <select class="form-control select2" id="role_id" name="role_id" style="width: 100%;">
+                    @foreach($roles as $role)
+                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                    @endforeach
+                    </select>
+                    </div>
                 </div>
 
                 <!-- /.card-body -->
@@ -151,7 +150,7 @@
       formData.append('password',document.getElementById('password').value);
       formData.append('mobile',document.getElementById('mobile').value);
       formData.append('image',document.getElementById('image').files[0]);
-      // formData.append('role_id',document.getElementById('role_id').value);
+      formData.append('role_id',document.getElementById('role_id').value);
 
       store('/cms/admin/admins' , formData);
     }

@@ -7,6 +7,9 @@ use App\Models\Category;
 use App\Models\Slider;
 use App\Models\Contact;
 use App\Models\Article;
+use App\Models\Currency;
+use App\Models\Price;
+use App\Models\Question;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
@@ -15,9 +18,10 @@ class HomeController extends Controller
 {
     public function home(){
         // $services = Service::take(6)->get();
-        // $currencies = Currency::take(3)->get();
-        // return view('front.home' , compact('services' , 'currencies'));
-        return view('front.home' );
+
+        $prices = Price::orderBy('created_at' , 'asc')->take(4)->get();
+
+        return view('front.home' , compact('prices') );
     }
 
     public function about(){
@@ -33,14 +37,14 @@ class HomeController extends Controller
 
     }
     public function currencies(){
-        // $currencies = Currency::orderBy('created_at' , 'desc')->paginate('4');
-        // return view('front.currencies' ,compact('currencies') );
 
-        return view('front.currencies'  );
+        $prices = Price::orderBy('created_at' , 'desc')->first()->paginate('10');
+        return view('front.currencies' ,compact('prices' ) );
 
     }
+
     public function archive(){
-        // $currencies = Currency::all();
+        // $prices = Price::all();
         // $archives = Archive::orderBy('created_at' , 'desc')->paginate('4');
         // return view('front.archive' ,compact('archives') );
 
@@ -53,10 +57,9 @@ class HomeController extends Controller
     }
 
     public function question(){
-        // $questions = Question::orderBy('created_at' , 'desc')->paginate('4');
-        // return view('front.question' ,compact('questions') );
+        $questions = Question::orderBy('created_at' , 'asc')->get();
+        return view('front.questions' ,compact('questions') );
 
-        return view('front.questions' );
     }
 
     public function contact(){
@@ -65,10 +68,6 @@ class HomeController extends Controller
 
         return response()->view('front.contactUs');
     }
-
-
-
-    // قديم
 
 
     public function storeContact(Request $request){

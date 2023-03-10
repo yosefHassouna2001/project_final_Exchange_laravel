@@ -69,8 +69,8 @@ class RolePermissionController extends Controller
             } else {
                 $role->givePermissionTo($permission->id);
             }
-
-            return response()->json(['icon' => $isSaved ? 'success' : 'error' , 'title' => $isSaved ? "تمت عملية الاضافة بنجاح" : "فشلت عملية الاضافة"] , $isSaved ? 200 : 400);
+            
+                return response()->json(['icon' => 'success' , 'title' => 'تمت العملية بنجاح'] , 200);
 
 
             }

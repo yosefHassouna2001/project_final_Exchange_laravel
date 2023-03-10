@@ -27,7 +27,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <label>Country</label>
+                            <label>الدولة</label>
                             <select class="form-control select2" id="country_id" disabled name="country_id" style="width: 100%;">
                                 @foreach ($countries as $country )
                                 <option @if ($country->id == $cities->country_id) selected @endif value="{{ $country->id }}">

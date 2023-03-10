@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Country;
+use App\Models\Question;
 use Illuminate\Http\Request;
 
-class CountryController extends Controller
+class QuestionController extends Controller
 {
 
 // soft delete
@@ -13,14 +13,14 @@ class CountryController extends Controller
     //  function restoreindex
     public function restoreindex()
     {
-        $countries = Country::onlyTrashed()->orderBy('deleted_at' , 'desc')->paginate(10);
-        return response()->view('cms.country.index' , compact('countries'));
+        $questions = Question::onlyTrashed()->orderBy('deleted_at' , 'desc')->paginate(10);
+        return response()->view('cms.question.index' , compact('questions'));
     }
 
     //  function restore
     public function restore( $id)
     {
-        $countries = Country::onlyTrashed()->findOrfail($id)->restore();
+        $questions = Question::onlyTrashed()->findOrfail($id)->restore();
         return redirect()->back();
 
     }
@@ -33,18 +33,15 @@ class CountryController extends Controller
     public function index(Request $request)
     {
 
-        $countries = Country::withCount('cities')->orderBy('id' ,'desc');
+        $questions = Question::orderBy('id' ,'desc');
 
-        if ($request->get('name')) {
-            $countries = Country::where('name', 'like', '%' . $request->name . '%');
-        }
-        if ($request->get('code')) {
-            $countries = Country::where('code', 'like', '%' . $request->code . '%');
+        if ($request->get('title')) {
+            $questions = Question::where('name', 'like', '%' . $request->name . '%');
         }
 
-        $countries = $countries->paginate(5);
+        $questions = $questions->paginate(5);
 
-        return response()->view('cms.country.index' , compact('countries'));
+        return response()->view('cms.question.index' , compact('questions'));
 
     }
 
@@ -55,7 +52,7 @@ class CountryController extends Controller
      */
     public function create()
     {
-        return response()->view('cms.country.create');
+        return response()->view('cms.question.create');
     }
 
     /**
@@ -68,26 +65,22 @@ class CountryController extends Controller
     {
 
         $validator = Validator($request->all() , [
-            'name' => 'required|string|min:3|max:20',
-            'code' => 'required|numeric|digits:3',
+            'title' => 'required',
+            'description' => 'required',
         ] , [
-            'name.required' => 'هذا الحقل مطلوب' ,
-            'name.min' => 'لا يمكن اضافة اقل من 3 حروف' ,
-            'name.max' => 'لا يمكن أضافة اكثر من 20 حرف' ,
-            'name.string' => 'لا يمكن أضافة اكثر من 20 حرف' ,
-            'code.required' => 'هذا الحقل مطلوب' ,
-            'code.numeric' => 'يرجى كتابة الكود رقم' ,
-            'code.digits' => 'لا يمكن أضافة اكثر من 3 ارقام' ,
+            'title.required' => 'هذا الحقل مطلوب' ,
+            'description.required' => 'هذا الحقل مطلوب' ,
+
 
         ]);
 
         if(! $validator->fails()){
 
-            $countries = new Country();
-            $countries->name = $request->get('name');
-            $countries->code = $request->get('code');
+            $questions = new Question();
+            $questions->title = $request->get('title');
+            $questions->description = $request->get('description');
 
-            $isSaved = $countries->save();
+            $isSaved = $questions->save();
 
             if($isSaved){
                 return response()->json(['icon' => 'success' , 'title' => "تمت عملية الاضافة بنجاح"] , 200);
@@ -110,8 +103,8 @@ class CountryController extends Controller
      */
     public function show($id)
     {
-        $countries = Country::withTrashed()->findOrFail($id);
-        return response()->view('cms.country.show' , compact( 'countries' ));
+        $questions = Question::withTrashed()->findOrFail($id);
+        return response()->view('cms.question.show' , compact( 'questions' ));
 
     }
 
@@ -123,8 +116,8 @@ class CountryController extends Controller
      */
     public function edit($id)
     {
-        $countries = Country::findOrFail($id);
-        return response()->view('cms.country.edit' , compact('countries'));
+        $questions = Question::findOrFail($id);
+        return response()->view('cms.question.edit' , compact('questions'));
     }
 
     /**
@@ -137,27 +130,23 @@ class CountryController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator($request->all() , [
-            'name' => 'required|string|min:3|max:20',
-            'code' => 'required|numeric|digits:3',
+            'title' => 'required',
+            'description' => 'required',
         ] , [
-            'name.required' => 'هذا الحقل مطلوب' ,
-            'name.min' => 'لا يمكن اضافة اقل من 3 حروف' ,
-            'name.max' => 'لا يمكن أضافة اكثر من 20 حرف' ,
-            'name.string' => 'لا يمكن أضافة اكثر من 20 حرف' ,
-            'code.required' => 'هذا الحقل مطلوب' ,
-            'code.numeric' => 'يرجى كتابة الكود رقم' ,
-            'code.digits' => 'لا يمكن أضافة اكثر من 3 ارقام' ,
+            'title.required' => 'هذا الحقل مطلوب' ,
+            'description.required' => 'هذا الحقل مطلوب' ,
+
 
         ]);
 
         if (! $validator->fails()){
 
-            $countries = Country::findOrFail($id);
-            $countries->name = $request->get('name');
-            $countries->code = $request->get('code');
+            $questions = Question::findOrFail($id);
+            $questions->title = $request->get('title');
+            $questions->description = $request->get('description');
 
-            $isUpdated = $countries->save();
-            return ['redirect' => route('countries.index')];
+            $isUpdated = $questions->save();
+            return ['redirect' => route('questions.index')];
 
             if($isUpdated){
                 return response()->json(['icon' => 'success' , 'title' => "تمت عملية التعديل بنجاح"] , 200);
@@ -179,20 +168,20 @@ class CountryController extends Controller
      */
     public function destroy($id)
     {
-        $countries= Country::withTrashed()->find($id);
+        $questions= Question::withTrashed()->find($id);
 
     //  function destroy
 
-        if($countries->deleted_at == null){
-            $countries = Country::destroy($id);
+        if($questions->deleted_at == null){
+            $questions = Question::destroy($id);
 
             return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف بنجاح"] , 200);
         }
 
     //  function forceDelete
 
-        if($countries->deleted_at !== null){
-            $countries->forceDelete();
+        if($questions->deleted_at !== null){
+            $questions->forceDelete();
 
             return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف النهائي بنجاح"] , 200);
         }

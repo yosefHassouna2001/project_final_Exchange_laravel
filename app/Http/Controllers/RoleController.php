@@ -113,22 +113,24 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        $roles= Role::withTrashed()->find($id);
+        $roles = Role::destroy($id);
+
+        // $roles= Role::withTrashed()->find($id);
 
     //  function destroy
 
-        if($roles->deleted_at == null){
-            $roles = Role::destroy($id);
+    //     if($roles->deleted_at == null){
+    //         $roles = Role::destroy($id);
 
-            return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف بنجاح"] , 200);
-        }
+    //         return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف بنجاح"] , 200);
+    //     }
 
-    //  function forceDelete
+    // //  function forceDelete
 
-        if($roles->deleted_at !== null){
-            $roles->forceDelete();
+    //     if($roles->deleted_at !== null){
+    //         $roles->forceDelete();
 
-            return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف النهائي بنجاح"] , 200);
-        }
+    //         return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف النهائي بنجاح"] , 200);
+    //     }
     }
 }

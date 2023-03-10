@@ -216,7 +216,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
             <li class="nav-item ">
-                <a href="#" class="nav-link active">
+                <a href="{{ route('home') }}" class="nav-link active">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                     الرئيسية | @yield('sub-title')
@@ -226,7 +226,7 @@
             <li class="nav-header">
                 الأدوار والصلاحيات
             </li>
-            {{-- @canany(['Index-Role', 'Create-Role']) --}}
+            @canany(['عرض الادوار', 'اضافة ادوار'])
             <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
                     <i class="fas fa-users ml-2"></i>
@@ -236,7 +236,7 @@
                 </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    {{-- @can("Index-Role") --}}
+                    @can('عرض الادوار')
                     <li class="nav-item">
                     <a href="{{ route('roles.index') }}" class="nav-link">
                     {{-- <a href="#" class="nav-link"> --}}
@@ -244,8 +244,8 @@
                         <p>  عرض الأدوار</p>
                     </a>
                     </li>
-                    {{-- @endcan --}}
-                    {{-- @can('Create-Role') --}}
+                    @endcan
+                    @can('اضافة ادوار')
                     <li class="nav-item">
                     <a href="{{route('roles.create') }}" class="nav-link">
                     {{-- <a href="#" class="nav-link"> --}}
@@ -253,15 +253,14 @@
                         <p>إضافة دور جديد</p>
                     </a>
                     </li>
-                    {{-- @endcan --}}
+                    @endcan
 
 
                 </ul>
             </li>
-            {{-- @endcanany --}}
-            {{-- @canany(['Index-Permission', 'Create-Permission']) --}}
-            {{-- @endcanany --}}
-            {{-- @canany(['Index-Permission', 'Create-Permission']) --}}
+            @endcanany
+
+            @canany(['عرض الصلاحيات', 'اضافة الصلاحيات'])
 
             <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
@@ -272,7 +271,7 @@
                 </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    {{-- @can('Index-Permission') --}}
+                    @can('عرض الصلاحيات')
 
                     <li class="nav-item">
                         <a href="{{ route('permissions.index') }}" class="nav-link">
@@ -281,9 +280,9 @@
                         <p>  عرض الصلاحيات</p>
                         </a>
                     </li>
-                    {{-- @endcan --}}
+                    @endcan
 
-                    {{-- @can('Create-Permission') --}}
+                    @can('اضافة الصلاحيات')
                     <li class="nav-item">
                         <a href="{{route('permissions.create') }}" class="nav-link">
                         {{-- <a href="#" class="nav-link"> --}}
@@ -291,17 +290,17 @@
                             <p>إضافة صلاحية جديدة</p>
                         </a>
                     </li>
-                    {{-- @endcan --}}
+                    @endcan
 
                 </ul>
             </li>
-            {{-- @endcanany --}}
+            @endcanany
 
             <li class="nav-header">
                 مستخدمين النظام
             </li>
 
-            {{-- @canAny(['Index-Admin','Create-Admin']) --}}
+            @canAny(['عرض المشرفين','اضافة مشرف'])
 
             <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
@@ -315,126 +314,126 @@
                 </a>
                 <ul class="nav nav-treeview">
 
-                {{-- @can('Index-Admin') --}}
+                @can('عرض المشرفين')
                     <li class="nav-item">
                         <a href="{{ route('admins.index') }}" class="nav-link">
                             <i class="fas fa-desktop mx-2 ml-4"></i>
                         <p>  عرض  </p>
                         </a>
                     </li>
-                {{-- @endcan --}}
+                @endcan
 
-                {{-- @can('Create-Admin') --}}
+                @can('اضافة المشرفين')
                     <li class="nav-item">
                         <a href="{{route('admins.create') }}" class="nav-link">
                             <i class="fas fa-plus mx-2 ml-4"></i>
                         <p>إضافة ادمن جديد</p>
                         </a>
                     </li>
-                {{-- @endcan --}}
+                @endcan
 
                 </ul>
             </li>
-            {{-- @endCanAny --}}
+            @endCanAny
 
 
             <li class="nav-header">
             إدارة محتوى النظام
             </li>
-            {{-- @canAny(['Index-Country' , 'Create-Country']) --}}
+            @canAny(['عرض الدول' , 'اضافة الدول'])
             <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
                     <i class="fa-solid fa-tree-city ml-2"></i>
                 <p>
-                    الدولة
+                    الدول
                     <i class="fas fa-angle-left right"></i>
                 </p>
                 </a>
                 <ul class="nav nav-treeview">
-                {{-- @can('Index-Country') --}}
+                @can('عرض الدول')
                     <li class="nav-item">
                         <a href="{{ route('countries.index') }}" class="nav-link">
                             <i class="fas fa-desktop mx-2 ml-4"></i>
                         <p>  عرض الدول</p>
                         </a>
                     </li>
-                {{-- @endcan --}}
-                {{-- @can('Create-Country') --}}
+                @endcan
+                @can('اضافة الدول')
                     <li class="nav-item">
                         <a href="{{ route('countries.create') }}" class="nav-link">
                             <i class="fas fa-plus mx-2 ml-4"></i>
                         <p>إضافة دولة جديدة</p>
                         </a>
                     </li>
-                {{-- @endcan --}}
+                @endcan
 
                 </ul>
             </li>
-            {{-- @endcanany --}}
+            @endcanany
 
-            {{-- @canAny(['Index-City' , 'Create-City']) --}}
+            @canAny(['عرض المدن' , 'اضافة مدينة'])
             <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
                     <i class="fa-solid fa-tree-city ml-2"></i>
                 <p>
-                    المدينة
+                    المدن
                     <i class="fas fa-angle-left right"></i>
                 </p>
                 </a>
                 <ul class="nav nav-treeview">
-                {{-- @can('Index-City') --}}
+                @can('عرض المدن')
                     <li class="nav-item">
                         <a href="{{ route('cities.index') }}" class="nav-link">
                             <i class="fas fa-desktop mx-2 ml-4"></i>
                         <p>  عرض المدن</p>
                         </a>
                     </li>
-                {{-- @endcan --}}
-                {{-- @can('Create-City') --}}
+                @endcan
+                @can('اضافة مدينة')
                     <li class="nav-item">
                         <a href="{{ route('cities.create') }}" class="nav-link">
                             <i class="fas fa-plus mx-2 ml-4"></i>
                         <p>إضافة مدينة جديدة</p>
                         </a>
                     </li>
-                {{-- @endcan --}}
+                @endcan
 
                 </ul>
             </li>
-            {{-- @endcanany --}}
+            @endcanany
 
-            {{-- @canAny(['Index-Location' , 'Create-Location']) --}}
+            @canAny(['عرض الفروع' , 'اضافة الفروع'])
             <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
                     <i class="fa-solid fa-code-branch ml-2"></i>
                 <p>
-                    الفرع
+                    الفروع
                     <i class="fas fa-angle-left right"></i>
                 </p>
                 </a>
                 <ul class="nav nav-treeview">
-                {{-- @can('Index-Location') --}}
+                @can('عرض الفروع')
                     <li class="nav-item">
                         <a href="{{ route('branches.index') }}" class="nav-link">
                             <i class="fas fa-desktop mx-2 ml-4"></i>
                         <p>  عرض الفروع</p>
                         </a>
                     </li>
-                {{-- @endcan --}}
-                {{-- @can('Create-Location') --}}
+                @endcan
+                @can('اضافة الفروع')
                     <li class="nav-item">
                         <a href="{{ route('branches.create') }}" class="nav-link">
                             <i class="fas fa-plus mx-2 ml-4"></i>
                         <p>إضافة فرع جديدة</p>
                         </a>
                     </li>
-                {{-- @endcan --}}
+                @endcan
 
                 </ul>
             </li>
-            {{-- @endcanany --}}
+            @endcanany
 
-            {{-- @canAny(['Index-Articles' , 'Create-Articles']) --}}
+            @canAny(['عرض الاخبار' , 'اضافة الاخبار'])
             <li class="nav-item has-treeview">
                 <a href="#" class="nav-link">
                     <i class="fa-solid fa-newspaper ml-2"></i>
@@ -444,30 +443,119 @@
                 </p>
                 </a>
                 <ul class="nav nav-treeview">
-                {{-- @can('Index-Articles') --}}
+                @can('عرض الاخبار')
                     <li class="nav-item">
                         <a href="{{ route('articles.index') }}" class="nav-link">
                             <i class="fas fa-desktop mx-2 ml-4"></i>
                         <p>  عرض الاخبار</p>
                         </a>
                     </li>
-                {{-- @endcan --}}
-                {{-- @can('Create-Articles') --}}
+                @endcan
+                @can('اضافة الاخبار')
                     <li class="nav-item">
                         <a href="{{ route('articles.create') }}" class="nav-link">
                             <i class="fas fa-plus mx-2 ml-4"></i>
                         <p>إضافة خبر جديدة</p>
                         </a>
                     </li>
-                {{-- @endcan --}}
+                @endcan
 
                 </ul>
             </li>
-            {{-- @endcanany --}}
+            @endcanany
 
-            <li class="nav-header">
-            إدارة التدريب
+            @canAny(['عرض العملات' , 'اضافة العملات'])
+            <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                    <i class="fa-sharp fa-solid fa-coins ml-2"></i>
+                <p>
+                    العملات
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+                </a>
+                <ul class="nav nav-treeview">
+                @can('عرض العملات')
+                    <li class="nav-item">
+                        <a href="{{ route('currencies.index') }}" class="nav-link">
+                            <i class="fas fa-desktop mx-2 ml-4"></i>
+                        <p>  عرض العملات</p>
+                        </a>
+                    </li>
+                @endcan
+                @can('اضافة العملات')
+                    <li class="nav-item">
+                        <a href="{{ route('currencies.create') }}" class="nav-link">
+                            <i class="fas fa-plus mx-2 ml-4"></i>
+                        <p>إضافة عملة جديدة</p>
+                        </a>
+                    </li>
+                @endcan
+
+                </ul>
             </li>
+            @endcanany
+
+            @canAny(['عرض الاسعار' , 'اضافة الاسعار'])
+            <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-money-check-dollar ml-2"></i>
+                <p>
+                    الاسعار
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+                </a>
+                <ul class="nav nav-treeview">
+                @can('عرض الاسعار')
+                    <li class="nav-item">
+                        <a href="{{ route('prices.index') }}" class="nav-link">
+                            <i class="fas fa-desktop mx-2 ml-4"></i>
+                        <p>  عرض الاسعار</p>
+                        </a>
+                    </li>
+                @endcan
+                @can('اضافة الاسعار')
+                    <li class="nav-item">
+                        <a href="{{ route('prices.create') }}" class="nav-link">
+                            <i class="fas fa-plus mx-2 ml-4"></i>
+                        <p>إضافة سعر جديد</p>
+                        </a>
+                    </li>
+                @endcan
+
+                </ul>
+            </li>
+            @endcanany
+
+            @canAny(['عرض الاسئلة' , 'اضافة الاسئلة'])
+            <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-clipboard-question ml-2"></i>
+                <p>
+                    الاسئلة الشائعة
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+                </a>
+                <ul class="nav nav-treeview">
+                @can('عرض الاسئلة')
+                    <li class="nav-item">
+                        <a href="{{ route('questions.index') }}" class="nav-link">
+                            <i class="fas fa-desktop mx-2 ml-4"></i>
+                        <p>  عرض الاسئلة</p>
+                        </a>
+                    </li>
+                @endcan
+                @can('اضافة الاسئلة')
+                    <li class="nav-item">
+                        <a href="{{ route('questions.create') }}" class="nav-link">
+                            <i class="fas fa-plus mx-2 ml-4"></i>
+                        <p>إضافة سؤال جديد</p>
+                        </a>
+                    </li>
+                @endcan
+
+                </ul>
+            </li>
+            @endcanany
 
             <li class="nav-header">
                 الإعدادات

@@ -30,31 +30,23 @@
                                     <th class="text-primary ">سعر الشراء</th>
                                     <th class="text-primary ">سعر البيع</th>
                                 </tr>
-                                <tr>
-                                    <th class=" fs-5"><img src="assets/images/flag/flag-1.jpg" class=" ms-3" alt=""><span>الدولار</span></th>
-                                    <td>3.52</td>
-                                    <td>3.53</td>
-                                </tr>
-                                <tr>
-                                    <th class=" fs-5"><img src="assets/images/flag/flag-1.jpg" class=" ms-3" alt=""><span>الدينار</span></th>
-                                    <td>4.94</td>
-                                    <td>4.96</td>
-                                </tr>
-                                <tr>
-                                    <th class=" fs-5"><img src="assets/images/flag/flag-1.jpg" class=" ms-3" alt=""><span>اليورو</span></th>
 
-                                    <td>3.45</td>
-                                    <td>3.53</td>
-                                </tr>
+                            @foreach($prices as $price)
                                 <tr>
-                                    <th class=" fs-5"><img src="assets/images/flag/flag-1.jpg" class=" ms-3" alt=""><span>الجنيه</span></th>
-                                    <td>0.16</td>
-                                    <td>0.17</td>
+                                    <th class=" fs-5">
+                                        <img src="{{asset('storage/images/currency/' . $price->currency->image)}}"
+                                        class=" ms-3" alt=""><span>{{ $price->currency->name }}</span>
+                                    </th>
+                                    <td>{{ $price->buy_price }}</td>
+                                    <td>{{ $price->sale_price }}</td>
                                 </tr>
+                            @endforeach
+
                                 <tr class="fw-bold border-0 " >
                                     <td class="fs-5" style="white-space: nowrap;"><i class="fa-solid fa-arrows-rotate"></i> آخر تحديث : </td>
                                     <td colspan="2" style="white-space: nowrap;">
-                                        <span class="date"> 2022-11-01 </span> الساعة <span class="time"> 11:53 </span>
+                                        {{-- <span class="date"> 2022-11-01 </span> الساعة <span class="time"> 11:53 </span> --}}
+                                        <span class="date"> {{ $price->created_at }} </span>
                                             <a href="archive.php" class="btn btn-primary btn-sm mx-auto me-4 text-white">الأرشيف</a>
                                     </td>
                                 </tr>
@@ -70,7 +62,7 @@
                         <img class="h2-move-3" src="assets/images/hero/4png.png" alt="#">
                     </div>
                     <div class="all " dir="ltr">
-                        <a href="currencies.html"class="btn btn-outline-primary  fs-5 p-3 text-white border-light m-5" >عرض جميع العملات   </a>
+                        <a href="{{ route('front.currencies') }}"class="btn btn-outline-primary  fs-5 p-3 text-white border-light m-5" >عرض جميع العملات   </a>
 
 
                     </div>

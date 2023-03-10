@@ -9,10 +9,13 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PriceController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\ViewerController;
@@ -53,13 +56,9 @@ Route::prefix('cms/admin/')->middleware('auth:admin')->group(function(){
 });
 
 Route::prefix('cms/admin/')->middleware('auth:admin')->group(function(){
-    Route::view('' , 'cms.home');
-    // Route::view('' , 'cms.parentOld');
+    Route::view('' , 'cms.home')->name('home');
     Route::view('temp' , 'cms.temp');
     Route::view('index' , 'cms.country.index');
-
-    Route::resource('countries' , CountryController::class);
-    Route::post('update-countries/{id}' , [CountryController::class , 'update'])->name('update-countries');
 
     // Role
     Route::resource('roles' , RoleController::class);
@@ -81,13 +80,13 @@ Route::prefix('cms/admin/')->middleware('auth:admin')->group(function(){
     Route::get('restoreindex-countries', [CountryController::class, 'restoreindex'])->name('restoreindex-countries');
     Route::get('restore-countries/{id}', [CountryController::class, 'restore'])->name('restore-countries');
 
-    // Country
+    // City
     Route::resource('cities' , CityController::class);
     Route::post('update-cities/{id}' , [CityController::class , 'update'])->name('update-cities');
     Route::get('restoreindex-cities', [CityController::class, 'restoreindex'])->name('restoreindex-cities');
     Route::get('restore-cities/{id}', [CityController::class, 'restore'])->name('restore-cities');
 
-    // Location
+    // Branch
     Route::resource('branches' , BranchController::class);
     Route::post('update-branches/{id}' , [BranchController::class , 'update'])->name('update-branches');
     Route::get('restoreindex-branches', [BranchController::class, 'restoreindex'])->name('restoreindex-branches');
@@ -105,11 +104,27 @@ Route::prefix('cms/admin/')->middleware('auth:admin')->group(function(){
     Route::get('restoreindex-articles', [ArticleController::class, 'restoreindex'])->name('restoreindex-articles');
     Route::get('restore-articles/{id}', [ArticleController::class, 'restore'])->name('restore-articles');
 
+    // Currency
+    Route::resource('currencies' , CurrencyController::class);
+    Route::post('update-currencies/{id}' , [CurrencyController::class , 'update'])->name('update-currencies');
+    Route::get('restoreindex-currencies', [CurrencyController::class, 'restoreindex'])->name('restoreindex-currencies');
+    Route::get('restore-currencies/{id}', [CurrencyController::class, 'restore'])->name('restore-currencies');
+
+    // Price
+    Route::resource('prices' , PriceController::class);
+    Route::post('update-prices/{id}' , [PriceController::class , 'update'])->name('update-prices');
+    Route::get('restoreindex-prices', [PriceController::class, 'restoreindex'])->name('restoreindex-prices');
+    Route::get('restore-prices/{id}', [PriceController::class, 'restore'])->name('restore-prices');
+
+    // Question
+    Route::resource('questions' , QuestionController::class);
+    Route::post('update-questions/{id}' , [QuestionController::class , 'update'])->name('update-questions');
+    Route::get('restoreindex-questions', [QuestionController::class, 'restoreindex'])->name('restoreindex-questions');
+    Route::get('restore-questions/{id}', [QuestionController::class, 'restore'])->name('restore-questions');
+
 
 });
 
-Route::resource('viewers' , ViewerController::class);
-Route::post('update-viewers/{id}' , [ViewerController::class , 'update'])->name('update-viewers');
 
 Route::prefix('front/')->group(function(){
 
@@ -117,20 +132,12 @@ Route::prefix('front/')->group(function(){
     Route::get('about' , [HomeController::class , 'about'])->name('front.about');
     Route::get('services' , [HomeController::class , 'services'])->name('front.services');
     Route::get('currencies' , [HomeController::class , 'currencies'])->name('front.currencies');
+    // Route::get('prices' , [HomeController::class , 'prices'])->name('front.prices');
     Route::get('archive' , [HomeController::class , 'archive'])->name('front.archive');
     Route::get('news' , [HomeController::class , 'news'])->name('front.news');
     Route::get('question' , [HomeController::class , 'question'])->name('front.question');
     Route::get('contact' , [HomeController::class , 'contact'])->name('front.contactUs');
-
-    // Route::get('all/{id}' , [HomeController::class , 'all'])->name('news.all');
-
-
-    // Route::get('det/{id}' , [HomeController::class , 'det'])->name('news.det');
-    // Route::get('contacts' , [HomeController::class , 'contact'])->name('news.contact');
-    // Route::post('contacts' , [HomeController::class , 'storeContact']);
+    Route::post('contacts' , [HomeController::class , 'storeContact']);
 
 });
 
-// Route::get('email' , function(){
-//     return new AdminEmail();
-// });

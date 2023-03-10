@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Country;
+use App\Models\Currency;
 use Illuminate\Http\Request;
 
-class CountryController extends Controller
+class CurrencyController extends Controller
 {
 
 // soft delete
@@ -13,14 +13,14 @@ class CountryController extends Controller
     //  function restoreindex
     public function restoreindex()
     {
-        $countries = Country::onlyTrashed()->orderBy('deleted_at' , 'desc')->paginate(10);
-        return response()->view('cms.country.index' , compact('countries'));
+        $currencies = Currency::onlyTrashed()->orderBy('deleted_at' , 'desc')->paginate(10);
+        return response()->view('cms.currency.index' , compact('currencies'));
     }
 
     //  function restore
     public function restore( $id)
     {
-        $countries = Country::onlyTrashed()->findOrfail($id)->restore();
+        $currencies = Currency::onlyTrashed()->findOrfail($id)->restore();
         return redirect()->back();
 
     }
@@ -33,18 +33,17 @@ class CountryController extends Controller
     public function index(Request $request)
     {
 
-        $countries = Country::withCount('cities')->orderBy('id' ,'desc');
+        // $currencies = Currency::withCount('prices')->orderBy('id' ,'desc');
+        $currencies = Currency::orderBy('id' ,'desc');
 
         if ($request->get('name')) {
-            $countries = Country::where('name', 'like', '%' . $request->name . '%');
-        }
-        if ($request->get('code')) {
-            $countries = Country::where('code', 'like', '%' . $request->code . '%');
+            $currencies = Currency::where('name', 'like', '%' . $request->name . '%');
         }
 
-        $countries = $countries->paginate(5);
 
-        return response()->view('cms.country.index' , compact('countries'));
+        $currencies = $currencies->paginate(5);
+
+        return response()->view('cms.currency.index' , compact('currencies'));
 
     }
 
@@ -55,7 +54,7 @@ class CountryController extends Controller
      */
     public function create()
     {
-        return response()->view('cms.country.create');
+        return response()->view('cms.currency.create');
     }
 
     /**
@@ -68,26 +67,28 @@ class CountryController extends Controller
     {
 
         $validator = Validator($request->all() , [
-            'name' => 'required|string|min:3|max:20',
-            'code' => 'required|numeric|digits:3',
+            'name' => 'required',
         ] , [
             'name.required' => 'هذا الحقل مطلوب' ,
-            'name.min' => 'لا يمكن اضافة اقل من 3 حروف' ,
-            'name.max' => 'لا يمكن أضافة اكثر من 20 حرف' ,
-            'name.string' => 'لا يمكن أضافة اكثر من 20 حرف' ,
-            'code.required' => 'هذا الحقل مطلوب' ,
-            'code.numeric' => 'يرجى كتابة الكود رقم' ,
-            'code.digits' => 'لا يمكن أضافة اكثر من 3 ارقام' ,
 
         ]);
 
         if(! $validator->fails()){
 
-            $countries = new Country();
-            $countries->name = $request->get('name');
-            $countries->code = $request->get('code');
+            $currencies = new Currency();
+            $currencies->name = $request->get('name');
+            if (request()->hasFile('image')) {
 
-            $isSaved = $countries->save();
+                $image = $request->file('image');
+
+                $imageName = time() . 'image.' . $image->getClientOriginalExtension();
+
+                $image->move('storage/images/currency', $imageName);
+
+                $currencies->image = $imageName;
+                }
+
+            $isSaved = $currencies->save();
 
             if($isSaved){
                 return response()->json(['icon' => 'success' , 'title' => "تمت عملية الاضافة بنجاح"] , 200);
@@ -110,8 +111,8 @@ class CountryController extends Controller
      */
     public function show($id)
     {
-        $countries = Country::withTrashed()->findOrFail($id);
-        return response()->view('cms.country.show' , compact( 'countries' ));
+        $currencies = Currency::withTrashed()->findOrFail($id);
+        return response()->view('cms.currency.show' , compact( 'currencies' ));
 
     }
 
@@ -123,8 +124,8 @@ class CountryController extends Controller
      */
     public function edit($id)
     {
-        $countries = Country::findOrFail($id);
-        return response()->view('cms.country.edit' , compact('countries'));
+        $currencies = Currency::findOrFail($id);
+        return response()->view('cms.currency.edit' , compact('currencies'));
     }
 
     /**
@@ -137,27 +138,29 @@ class CountryController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator($request->all() , [
-            'name' => 'required|string|min:3|max:20',
-            'code' => 'required|numeric|digits:3',
+            'name' => 'required',
         ] , [
             'name.required' => 'هذا الحقل مطلوب' ,
-            'name.min' => 'لا يمكن اضافة اقل من 3 حروف' ,
-            'name.max' => 'لا يمكن أضافة اكثر من 20 حرف' ,
-            'name.string' => 'لا يمكن أضافة اكثر من 20 حرف' ,
-            'code.required' => 'هذا الحقل مطلوب' ,
-            'code.numeric' => 'يرجى كتابة الكود رقم' ,
-            'code.digits' => 'لا يمكن أضافة اكثر من 3 ارقام' ,
 
         ]);
 
         if (! $validator->fails()){
 
-            $countries = Country::findOrFail($id);
-            $countries->name = $request->get('name');
-            $countries->code = $request->get('code');
+            $currencies = Currency::findOrFail($id);
+            $currencies->name = $request->get('name');
+            if (request()->hasFile('image')) {
 
-            $isUpdated = $countries->save();
-            return ['redirect' => route('countries.index')];
+                $image = $request->file('image');
+
+                $imageName = time() . 'image.' . $image->getClientOriginalExtension();
+
+                $image->move('storage/images/currency', $imageName);
+
+                $currencies->image = $imageName;
+                }
+
+            $isUpdated = $currencies->save();
+            return ['redirect' => route('currencies.index')];
 
             if($isUpdated){
                 return response()->json(['icon' => 'success' , 'title' => "تمت عملية التعديل بنجاح"] , 200);
@@ -179,20 +182,20 @@ class CountryController extends Controller
      */
     public function destroy($id)
     {
-        $countries= Country::withTrashed()->find($id);
+        $currencies= Currency::withTrashed()->find($id);
 
     //  function destroy
 
-        if($countries->deleted_at == null){
-            $countries = Country::destroy($id);
+        if($currencies->deleted_at == null){
+            $currencies = Currency::destroy($id);
 
             return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف بنجاح"] , 200);
         }
 
     //  function forceDelete
 
-        if($countries->deleted_at !== null){
-            $countries->forceDelete();
+        if($currencies->deleted_at !== null){
+            $currencies->forceDelete();
 
             return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف النهائي بنجاح"] , 200);
         }
