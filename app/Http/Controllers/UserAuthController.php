@@ -53,7 +53,7 @@ class UserAuthController extends Controller
         $guard = auth('admin')->check() ? 'admin' : 'author';
         Auth::guard($guard)->logout();
         $request->session()->invalidate();
-        return redirect()->route('login' , $guard);
+        return redirect()->route('view.login' , $guard);
 
 
     }

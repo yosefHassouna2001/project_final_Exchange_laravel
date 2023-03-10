@@ -27,9 +27,14 @@
                             <img src="{{asset('storage/images/article/' . $article->image)}}" class="card-img-top img-fluid"
                                 style="height: 350px" alt="News Image">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $article->title }}</h5>
+                                <div class="top d-flex justify-content-between">
+                                    <h5 class="card-title">{{ $article->title }}</h5>
+                                    <p class="card-text">{{ $article->created_at }}</p>
+
+                                </div>
                                 <p class="card-text">{{ $article->short_description }}</p>
-                                <a href="#" class="btn btn-primary"> اقرا المزيد</a>
+                                <a href="#" class="btn btn-primary text-light"> اقرا المزيد</a>
+
                             </div>
                         </div>
                     </div>
