@@ -181,7 +181,7 @@
         <div class="image">
 
           {{--  <img src="{{ asset('storage/images/admin/' . auth('admin')->user()->images) }}" class="img-circle elevation-2"  --}}
-           <img class="brand-image img-circle elevation-3" src="{{ asset('storage/images/admin/' . auth('admin')->user()->images) }}"
+           <img class="brand-image img-circle elevation-3" style="height: 100%;" src="{{ asset('storage/images/admin/' . auth('admin')->user()->images) }}"
             alt="User Image">
         </div>
         <div class="info">
@@ -238,8 +238,8 @@
                 <ul class="nav nav-treeview">
                     {{-- @can("Index-Role") --}}
                     <li class="nav-item">
-                    {{-- <a href="{{ route('roles.index') }}" class="nav-link"> --}}
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('roles.index') }}" class="nav-link">
+                    {{-- <a href="#" class="nav-link"> --}}
                         <i class="fas fa-desktop mx-2 ml-4"></i>
                         <p>  عرض الأدوار</p>
                     </a>
@@ -247,8 +247,8 @@
                     {{-- @endcan --}}
                     {{-- @can('Create-Role') --}}
                     <li class="nav-item">
-                    {{-- <a href="{{route('roles.create') }}" class="nav-link"> --}}
-                    <a href="#" class="nav-link">
+                    <a href="{{route('roles.create') }}" class="nav-link">
+                    {{-- <a href="#" class="nav-link"> --}}
                         <i class="fas fa-plus mx-2 ml-4"></i>
                         <p>إضافة دور جديد</p>
                     </a>
@@ -275,8 +275,8 @@
                     {{-- @can('Index-Permission') --}}
 
                     <li class="nav-item">
-                        {{-- <a href="{{ route('permissions.index') }}" class="nav-link"> --}}
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('permissions.index') }}" class="nav-link">
+                        {{-- <a href="#" class="nav-link"> --}}
                             <i class="fas fa-desktop mx-2 ml-4"></i>
                         <p>  عرض الصلاحيات</p>
                         </a>
@@ -285,8 +285,8 @@
 
                     {{-- @can('Create-Permission') --}}
                     <li class="nav-item">
-                        {{-- <a href="{{route('permissions.create') }}" class="nav-link"> --}}
-                        <a href="#" class="nav-link">
+                        <a href="{{route('permissions.create') }}" class="nav-link">
+                        {{-- <a href="#" class="nav-link"> --}}
                             <i class="fas fa-plus mx-2 ml-4"></i>
                             <p>إضافة صلاحية جديدة</p>
                         </a>

@@ -3,19 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
-class PermissionController extends Controller
+class RoleController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $permissions = Permission::orderBy('id' , 'desc')->paginate(10);
-        return response()->view('cms.spaity.permission.index' , compact('permissions'));
+
+        $roles = Role::withCount('permissions')->orderBy('id' ,'desc');
+
+        if ($request->get('name')) {
+            $roles = Role::where('name', 'like', '%' . $request->name . '%');
+        }
+
+        $roles = $roles->paginate(5);
+
+        return response()->view('cms.spaity.role.index' , compact('roles'));
+
+
     }
 
     /**
@@ -25,7 +36,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return response()->view('cms.spaity.permission.create');
+        return response()->view('cms.spaity.role.create');
     }
 
     /**
@@ -37,18 +48,21 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         $validator = Validator($request->all(), [
-
+            'name' => 'required',
+            ] , [
+            'name.required' => 'الرجاء اضافة اسم الدور' ,
         ]);
 
         if(! $validator->fails()){
-            $permissions = new Permission();
-            $permissions->name = $request->get('name');
-            $permissions->guard_name = $request->get('guard_name');
+            $roles = new Role();
+            $roles->name = $request->get('name');
+            $roles->guard_name = $request->get('guard_name');
 
-            $isSaved = $permissions->save();
+            $isSaved = $roles->save();
 
             if($isSaved){
-                return response()->json(['icon' => 'success' , 'title'=>'Created is Successfully'],200);
+                return response()->json(['icon' => $isSaved ? 'success' : 'error' , 'title' => $isSaved ? "تمت عملية الاضافة بنجاح" : "فشلت عملية الاضافة"] , $isSaved ? 200 : 400);
+
 
             }
         }
@@ -99,6 +113,22 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        $permissions = Permission::destroy($id);
+        $roles= Role::withTrashed()->find($id);
+
+    //  function destroy
+
+        if($roles->deleted_at == null){
+            $roles = Role::destroy($id);
+
+            return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف بنجاح"] , 200);
+        }
+
+    //  function forceDelete
+
+        if($roles->deleted_at !== null){
+            $roles->forceDelete();
+
+            return response()->json(['icon' => 'success' , 'title' => "تمت عملية الحذف النهائي بنجاح"] , 200);
+        }
     }
 }

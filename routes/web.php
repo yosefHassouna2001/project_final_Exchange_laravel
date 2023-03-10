@@ -61,11 +61,19 @@ Route::prefix('cms/admin/')->middleware('auth:admin')->group(function(){
     Route::resource('countries' , CountryController::class);
     Route::post('update-countries/{id}' , [CountryController::class , 'update'])->name('update-countries');
 
-    // Route::resource('roles' , RoleController::class);
-    // Route::post('roles-update' , [RoleController::class , 'update']);
-    // Route::resource('permissions' , PermissionController::class);
-    // Route::post('permissions-update' , [PermissionController::class , 'update']);
-    // Route::resource('roles.permissions' , RolePermissionController::class);
+    // Role
+    Route::resource('roles' , RoleController::class);
+    Route::post('roles-update/{id}' , [RoleController::class , 'update']);
+    Route::get('restoreindex-roles', [PermissionController::class, 'restoreindex'])->name('restoreindex-roles');
+    Route::get('restore-roles/{id}', [PermissionController::class, 'restore'])->name('restore-roles');
+
+    // permission
+    Route::resource('permissions' , PermissionController::class);
+    Route::post('permissions-update/{id}' , [PermissionController::class , 'update']);
+    Route::get('restoreindex-permissions', [PermissionController::class, 'restoreindex'])->name('restoreindex-permissions');
+    Route::get('restore-permissions/{id}', [PermissionController::class, 'restore'])->name('restore-permissions');
+
+    Route::resource('roles.permissions' , RolePermissionController::class);
 
     // Country
     Route::resource('countries' , CountryController::class);

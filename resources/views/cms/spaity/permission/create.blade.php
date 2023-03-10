@@ -1,10 +1,10 @@
 @extends('cms.parent')
 
-@section('title' , 'Permission')
+@section('title' , 'الصلاحيات')
 
-@section('main-title' , 'Create Permission')
+@section('main-title' , ' اضافة صلاحية')
 
-@section('sub-title' , 'create Permission')
+@section('sub-title' , ' اضافة صلاحية')
 
 @section('styles')
 
@@ -13,44 +13,43 @@
 @section('content')
 <section class="content">
     <div class="container-fluid">
-      <div class="row">
+        <div class="row">
         <!-- left column -->
         <div class="col-md-12">
-          <!-- general form elements -->
-          <div class="card card-primary">
+            <!-- general form elements -->
+            <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">Create Data of Permission</h3>
+                <h3 class="card-title" style="float: right !important">اضافة صلاحية للمشرف</h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
             <form>
-              <div class="card-body">
+                <div class="card-body">
 
-                
-          <div class="form-group col-md-6">
-            <label for="guard_name">Guard Name</label>
-            <select class="form-select form-select-sm" name="guard_name" style="width: 100%;"
-                  id="guard_name" aria-label=".form-select-sm example">
-                 <option value="admin">Admin </option>
-                 <option value="author">Author </option>
-              </select>
-            </div>
-                <div class="form-group col-md-6">
-                  <label for="name">Permission Name</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name of Role">
+                    <div class="row">
+                        <div class="form-group col-md-6" hidden>
+                            <label for="guard_name">اسم المشرف </label>
+                            <select class="form-select form-select-sm" name="guard_name" style="width: 100%;"
+                                id="guard_name" aria-label=".form-select-sm example">
+                                <option value="admin" selected>ادمن </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="name">اسم الصلاحية </label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="ادخل اسم الصلاحية">
+                        </div>
+                    </div>
                 </div>
-           
-              </div>
-              <!-- /.card-body -->
+                <!-- /.card-body -->
 
-              <div class="card-footer">
-                <button type="button" onclick="performStore()" class="btn btn-primary">Store</button>
-                <a href="{{ route('permissions.index') }}" type="button" class="btn btn-info">Return Back</a>
-
-              </div>
-            </form>
-          </div>
-          <!-- /.card -->
+                <div class="card-footer">
+                    <button type="button" onclick="performStore()" class="btn btn-success">حفظ</button>
+                    <a href="{{ route('permissions.index') }}" type="button" class="btn btn-info"> قائمة الصلاحيات <i class="fa-solid fa-tree-city ml-2"></i></a>
+                </div>
+                </form>
+            </div>
+            <!-- /.card -->
 
 
         </div>
@@ -58,24 +57,24 @@
 
 
         <!--/.col (right) -->
-      </div>
-      <!-- /.row -->
-    </div><!-- /.container-fluid -->
-  </section>
+        </div>
+        <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
 
 @endsection
 
 
 @section('scripts')
-  <script>
-    function performStore(){
+    <script>
+        function performStore(){
 
-      let formData = new FormData();
-      formData.append('name',document.getElementById('name').value);
-      formData.append('guard_name',document.getElementById('guard_name').value);
+        let formData = new FormData();
+        formData.append('name',document.getElementById('name').value);
+        formData.append('guard_name',document.getElementById('guard_name').value);
 
-      store('/cms/admin/permissions' , formData);
-    }
+        store('/cms/admin/permissions' , formData);
+        }
 
-  </script>
+    </script>
 @endsection
