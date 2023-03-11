@@ -3,14 +3,10 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\Slider;
 use App\Models\Contact;
 use App\Models\Article;
-use App\Models\Currency;
 use App\Models\Price;
 use App\Models\Question;
-use App\Models\Service;
 use Illuminate\Http\Request;
 
 

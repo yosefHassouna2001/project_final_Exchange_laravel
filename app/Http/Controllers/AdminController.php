@@ -8,8 +8,6 @@ use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
-use App\Mail\AdminEmail;
-use Illuminate\Support\Facades\Mail;
 
 
 class AdminController extends Controller

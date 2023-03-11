@@ -47,7 +47,7 @@
                                     <td colspan="2" style="white-space: nowrap;">
                                         {{-- <span class="date"> 2022-11-01 </span> الساعة <span class="time"> 11:53 </span> --}}
                                         <span class="date"> {{ $price->created_at }} </span>
-                                            <a href="archive.php" class="btn btn-primary btn-sm mx-auto me-4 text-white">الأرشيف</a>
+                                            <a href="{{ route('front.archive') }}" class="btn btn-primary btn-sm mx-auto me-4 text-white">الأرشيف</a>
                                     </td>
                                 </tr>
                             </table>

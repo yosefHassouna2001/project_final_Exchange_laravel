@@ -29,8 +29,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="current_password">كلمة المرور الحالية</label>
-                                    <input type="password" class="form-control" id="current_password"
+                                    <label for="password">كلمة المرور الحالية</label>
+                                    <input type="password" class="form-control" id="password" name="password"
                                         placeholder=" ادخل كلمة المرور الحالية ">
                                 </div>
                                 <div class="form-group col-md-6">
@@ -87,7 +87,7 @@
     function update(){
 
         let formData = new FormData();
-            formData.append('current_password',document.getElementById('current_password').value);
+            formData.append('password',document.getElementById('password').value);
             formData.append('new_password',document.getElementById('new_password').value);
             formData.append('new_password_confirmation',document.getElementById('new_password_confirmation').value);
 
